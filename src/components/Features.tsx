@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Users, Twitter, MessageSquare, Calendar, Phone } from 'lucide-react';
+import { Mail, Users, Twitter, MessageSquare, Globe, Phone } from 'lucide-react';
 
 const features = [
   {
@@ -23,9 +23,9 @@ const features = [
     description: 'Answer FAQs, capture leads, and book appointments.'
   },
   {
-    icon: Calendar,
-    title: 'Smart Booking System',
-    description: 'Let clients self-book without back-and-forth.'
+    icon: Globe,
+    title: 'Website Building',
+    description: 'We build high quality websites in 48 hours.'
   },
   {
     icon: Phone,
