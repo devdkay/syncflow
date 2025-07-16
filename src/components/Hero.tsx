@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-import Spline from '@splinetool/react-spline';
 
 export default function Hero() {
   return (
@@ -10,10 +9,14 @@ export default function Hero() {
       <div className="absolute inset-0 z-0">
         {/* Spline Animation */}
         <div className="absolute inset-0 w-full h-full">
-          <Spline 
-            scene="https://prod.spline.design/8cfb6748-f3dd-44dd-89fb-f46c7ab4186e/scene.splinecode"
-            className="w-full h-full object-cover opacity-60"
-          />
+          <spline-viewer 
+            url="https://prod.spline.design/BIcbKMPiPPM4hq7z/scene.splinecode"
+            style={{
+              width: '100%',
+              height: '100%',
+              opacity: '0.6'
+            }}
+          ></spline-viewer>
         </div>
         
         {/* Overlay for better text readability */}
