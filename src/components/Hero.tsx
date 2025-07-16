@@ -1,12 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import Spline from '@splinetool/react-spline';
 
 export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Animated Background */}
       <div className="absolute inset-0 z-0">
+        {/* Spline Animation */}
+        <div className="absolute inset-0 w-full h-full">
+          <Spline 
+            scene="https://prod.spline.design/8cfb6748-f3dd-44dd-89fb-f46c7ab4186e/scene.splinecode"
+            className="w-full h-full object-cover opacity-60"
+          />
+        </div>
+        
+        {/* Overlay for better text readability */}
+        <div className="absolute inset-0 bg-black/40 z-10"></div>
+        
         <div className="circuit-animation"></div>
         <div className="glow-orb glow-orb-1"></div>
         <div className="glow-orb glow-orb-2"></div>
@@ -14,7 +26,7 @@ export default function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
+      <div className="relative z-20 text-center px-6 max-w-4xl mx-auto">
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-6 leading-tight px-4">
           AI Systems That Work —{' '}
           <span className="text-[#00D4FF]">While You Don't</span>
@@ -35,7 +47,7 @@ export default function Hero() {
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce z-20">
         <div className="w-6 h-10 border-2 border-[#00D4FF] rounded-full flex justify-center">
           <div className="w-1 h-3 bg-[#00D4FF] rounded-full mt-2 animate-pulse"></div>
         </div>
