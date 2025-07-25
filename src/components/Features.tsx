@@ -1,41 +1,49 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Mail, Users, Twitter, MessageSquare, Globe, Phone, Settings } from 'lucide-react';
 
 const features = [
   {
     icon: Mail,
     title: 'Email Outreach Automation',
-    description: 'Auto-find & email leads with personalized templates.'
+    description: 'Auto-find & email leads with personalized templates.',
+    link: '/services/email-outreach-automation'
   },
   {
     icon: Users,
     title: 'Lead Capture + CRM Integration',
-    description: 'AI bots collect and organize leads instantly.'
+    description: 'AI bots collect and organize leads instantly.',
+    link: '/services/lead-capture-crm'
   },
   {
     icon: Twitter,
-    title: 'Twitter/X Automation',
-    description: 'Stay active and generate leads without lifting a finger.'
+    title: 'Social Media Automation',
+    description: 'Stay active and generate leads without lifting a finger.',
+    link: '/services/social-media-automation'
   },
   {
     icon: MessageSquare,
     title: '3-in-1 Website Chatbot',
-    description: 'Answer FAQs, capture leads, and book appointments.'
+    description: 'Answer FAQs, capture leads, and book appointments.',
+    link: '/services/website-chatbot'
   },
   {
     icon: Globe,
     title: 'Website Building',
-    description: 'We build high quality websites in 48 hours.'
+    description: 'We build high quality websites in 48 hours.',
+    link: '/services/smart-booking'
   },
   {
     icon: Phone,
     title: 'AI Voice Calls',
-    description: 'Automated follow-ups & BPO-style interaction with no staff.'
+    description: 'Automated follow-ups & BPO-style interaction with no staff.',
+    link: '/services/ai-voice-calls'
   },
   {
     icon: Settings,
     title: 'Custom Automations',
-    description: 'Custom automations according to need of business.'
+    description: 'Custom automations according to need of business.',
+    link: '/services/custom-automations'
   }
 ];
 
@@ -52,7 +60,8 @@ export default function Features() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {features.map((feature, index) => (
-            <div 
+            <Link
+              to={feature.link}
               key={index}
               className="feature-card group p-6 sm:p-8 rounded-xl bg-gray-900/50 border border-gray-800 hover:border-[#00D4FF]/50 transition-all duration-300"
             >
@@ -65,7 +74,7 @@ export default function Features() {
               <p className="text-sm sm:text-base text-gray-400 leading-relaxed">
                 {feature.description}
               </p>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
