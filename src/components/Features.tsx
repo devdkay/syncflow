@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Users, Twitter, MessageSquare, Globe, Phone } from 'lucide-react';
+import { Mail, Users, Twitter, MessageSquare, Globe, Phone, Settings } from 'lucide-react';
 
 const features = [
   {
@@ -31,6 +31,11 @@ const features = [
     icon: Phone,
     title: 'AI Voice Calls',
     description: 'Automated follow-ups & BPO-style interaction with no staff.'
+  },
+  {
+    icon: Settings,
+    title: 'Custom Automations',
+    description: 'Custom automations according to need of business.'
   }
 ];
 
