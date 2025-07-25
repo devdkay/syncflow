@@ -31,7 +31,7 @@ const features = [
     icon: Globe,
     title: 'Website Building',
     description: 'We build high quality websites in 48 hours.',
-    link: '/services/smart-booking'
+    link: '/services/website-building'
   },
   {
     icon: Phone,
