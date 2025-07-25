@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, Clock, Smartphone, Sync } from 'lucide-react';
+import { Calendar, Clock, Smartphone, FolderSync as Sync } from 'lucide-react';
 import ServicePageLayout from './ServicePageLayout';
 
 export default function SmartBooking() {
