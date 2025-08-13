@@ -71,7 +71,7 @@ const Portfolio = () => {
       title: "Acadia Launchbox Chatbot",
       description: "Custom chatbot developed for Acadia Launchbox using advanced Voiceflow.com connectors for seamless chatbot building capabilities. Features intelligent conversation flows and real-time integration.",
       image: "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800",
-      link: "https://launchbox.acadia.ca",
+      link: "https://launchbox.acadiau.ca/",
       linkText: "Visit Live Chatbot",
       tech: ["Voiceflow", "AI Integration", "Real-time Chat"],
       icon: <Code className="w-6 h-6" />
@@ -91,8 +91,8 @@ const Portfolio = () => {
       title: "AI Voice Call Demo",
       description: "Showcase of AI-powered voice calling capabilities using Bland.ai connectors for technical implementation. Features natural conversation flow and automated customer interaction systems.",
       image: "https://images.pexels.com/photos/7688336/pexels-photo-7688336.jpeg?auto=compress&cs=tinysrgb&w=800",
-      link: "https://www.bland.ai/connectors",
-      linkText: "View Technical Details",
+      link: "#",
+      linkText: "View Demo Features",
       tech: ["Bland.ai", "Voice AI", "Automation"],
       icon: <Phone className="w-6 h-6" />
     }

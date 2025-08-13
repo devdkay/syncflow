@@ -16,7 +16,6 @@ function App() {
       <Features />
       <About />
       <HowItWorks />
-      <Stats />
       <Portfolio />
       <Footer />
     </div>
