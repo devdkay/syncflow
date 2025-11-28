@@ -10,7 +10,7 @@ export default function Hero() {
         {/* Spline Animation */}
         <div className="absolute inset-0 w-full h-full">
           <spline-viewer 
-            url="https://prod.spline.design/6Wq5p8nLkCtctKT5/scene.splinecode"
+            url="https://prod.spline.design/llK92eHtKBtg4pKx/scene.splinecode"
             style={{
               width: '100%',
               height: '100%',
