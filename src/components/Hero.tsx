@@ -7,20 +7,11 @@ export default function Hero() {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Animated Background */}
       <div className="absolute inset-0 z-0">
-        {/* Spline Animation */}
-        <div className="absolute inset-0 w-full h-full">
-          <spline-viewer 
-            url="https://prod.spline.design/llK92eHtKBtg4pKx/scene.splinecode"
-            style={{
-              width: '100%',
-              height: '100%',
-              opacity: '0.6'
-            }}
-          ></spline-viewer>
-        </div>
+        {/* Animated gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 animate-gradient-x"></div>
         
         {/* Overlay for better text readability */}
-        <div className="absolute inset-0 bg-black/40 z-10"></div>
+        <div className="absolute inset-0 bg-black/30 z-10"></div>
         
         <div className="circuit-animation"></div>
         <div className="glow-orb glow-orb-1"></div>
