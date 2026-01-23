@@ -85,16 +85,6 @@ const Portfolio = () => {
       linkText: "View Website",
       tech: ["Portfolio", "Graduate", "Clean Design"],
       icon: <Zap className="w-6 h-6" />
-    },
-    {
-      id: 3,
-      title: "48-Hour Website Design Challenge",
-      description: "Rapid development showcase featuring the complete SyncFlow website built and deployed within 48 hours. Demonstrates our commitment to speed without compromising quality or functionality.",
-      image: "https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=800",
-      link: "#",
-      linkText: "View Current Site",
-      tech: ["React", "Tailwind CSS", "48h Delivery"],
-      icon: <Code className="w-6 h-6" />
     }
   ];
 
