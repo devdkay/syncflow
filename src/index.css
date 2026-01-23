@@ -22,20 +22,6 @@ html {
   scroll-behavior: smooth;
 }
 
-@keyframes gradient-x {
-  0%, 100% {
-    transform: translateX(0%);
-  }
-  50% {
-    transform: translateX(100%);
-  }
-}
-
-.animate-gradient-x {
-  background-size: 400% 400%;
-  animation: gradient-x 15s ease infinite;
-}
-
 /* Neon Button */
 .neon-button {
   @apply inline-flex items-center px-8 py-4 bg-gradient-to-r from-[#00D4FF] to-[#FF6B35] text-white font-semibold rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-[#00D4FF]/50 hover:scale-105 active:scale-95;
