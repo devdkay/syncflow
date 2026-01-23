@@ -78,23 +78,23 @@ const Portfolio = () => {
     },
     {
       id: 2,
+      title: "Portfolio Website (Graduate)",
+      description: "A clean portfolio website built for a graduate student.",
+      image: "https://images.pexels.com/photos/4348404/pexels-photo-4348404.jpeg?auto=compress&cs=tinysrgb&w=800",
+      link: "[PASTE_PORTFOLIO_LINK_HERE]",
+      linkText: "View Website",
+      tech: ["Portfolio", "Graduate", "Clean Design"],
+      icon: <Zap className="w-6 h-6" />
+    },
+    {
+      id: 3,
       title: "48-Hour Website Design Challenge",
       description: "Rapid development showcase featuring the complete SyncFlow website built and deployed within 48 hours. Demonstrates our commitment to speed without compromising quality or functionality.",
       image: "https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=800",
       link: "#",
       linkText: "View Current Site",
       tech: ["React", "Tailwind CSS", "48h Delivery"],
-      icon: <Zap className="w-6 h-6" />
-    },
-    {
-      id: 3,
-      title: "AI Voice Call Demo",
-      description: "Showcase of AI-powered voice calling capabilities using Bland.ai connectors for technical implementation. Features natural conversation flow and automated customer interaction systems.",
-      image: "https://images.pexels.com/photos/7688336/pexels-photo-7688336.jpeg?auto=compress&cs=tinysrgb&w=800",
-      link: "#",
-      linkText: "View Demo Features",
-      tech: ["Bland.ai", "Voice AI", "Automation"],
-      icon: <Phone className="w-6 h-6" />
+      icon: <Code className="w-6 h-6" />
     }
   ];
 
@@ -106,7 +106,7 @@ const Portfolio = () => {
         
         <div className="container mx-auto max-w-6xl relative z-10">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 px-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 px-4">
               Our <span className="text-[#00D4FF]">Impact</span>
             </h2>
             <p className="text-lg sm:text-xl text-gray-300 px-4">Measurable results that drive business growth</p>
@@ -116,13 +116,13 @@ const Portfolio = () => {
             <div className="text-center group">
               <div className="stats-card p-6 sm:p-8 rounded-xl bg-gray-900/50 border border-gray-800 hover:border-[#00D4FF]/50 transition-all duration-300">
                 <div className="text-4xl sm:text-5xl md:text-6xl font-bold text-[#00D4FF] mb-4 group-hover:scale-110 transition-transform">
-                  {counters.projects}+
+                  20+
                 </div>
                 <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">
                   Projects Completed
                 </h3>
                 <p className="text-sm sm:text-base text-gray-400">
-                  Successful automation deployments
+                  Successful projects delivered
                 </p>
               </div>
             </div>
@@ -130,10 +130,10 @@ const Portfolio = () => {
             <div className="text-center group">
               <div className="stats-card p-6 sm:p-8 rounded-xl bg-gray-900/50 border border-gray-800 hover:border-[#00D4FF]/50 transition-all duration-300">
                 <div className="text-4xl sm:text-5xl md:text-6xl font-bold text-[#00D4FF] mb-4 group-hover:scale-110 transition-transform">
-                  {counters.clients}+
+                  10+
                 </div>
                 <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">
-                  Happy Clients
+                  Clients Served
                 </h3>
                 <p className="text-sm sm:text-base text-gray-400">
                   Businesses transformed
@@ -144,13 +144,13 @@ const Portfolio = () => {
             <div className="text-center group">
               <div className="stats-card p-6 sm:p-8 rounded-xl bg-gray-900/50 border border-gray-800 hover:border-[#00D4FF]/50 transition-all duration-300">
                 <div className="text-4xl sm:text-5xl md:text-6xl font-bold text-[#00D4FF] mb-4 group-hover:scale-110 transition-transform">
-                  {counters.hours}h
+                  24h
                 </div>
                 <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">
-                  Fastest Delivery
+                  Fastest Website Delivery
                 </h3>
                 <p className="text-sm sm:text-base text-gray-400">
-                  Website completion record
+                  Basic websites delivered fast
                 </p>
               </div>
             </div>
@@ -158,7 +158,7 @@ const Portfolio = () => {
             <div className="text-center group">
               <div className="stats-card p-6 sm:p-8 rounded-xl bg-gray-900/50 border border-gray-800 hover:border-[#00D4FF]/50 transition-all duration-300">
                 <div className="text-4xl sm:text-5xl md:text-6xl font-bold text-[#00D4FF] mb-4 group-hover:scale-110 transition-transform">
-                  {counters.satisfaction}%
+                  100%
                 </div>
                 <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">
                   Client Satisfaction
@@ -176,8 +176,8 @@ const Portfolio = () => {
       <section className="py-20 px-6 bg-black/30">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 px-4">
-              Projects <span className="text-[#00D4FF]">Done</span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 px-4">
+              Our <span className="text-[#00D4FF]">Portfolio</span>
             </h2>
             <p className="text-lg sm:text-xl text-gray-300 px-4">Real solutions delivered for real businesses</p>
           </div>

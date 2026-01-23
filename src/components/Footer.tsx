@@ -1,10 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Linkedin, Twitter } from 'lucide-react';
 
 export default function Footer() {
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <footer id="contact" className="bg-black border-t border-gray-800 py-12 px-6">
+    <footer className="bg-black border-t border-gray-800 py-12 px-6">
       <div className="container mx-auto max-w-6xl">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-2">
@@ -12,7 +18,7 @@ export default function Footer() {
               <span className="text-[#00D4FF]">Sync</span>Flow
             </div>
             <p className="text-gray-400 mb-6 max-w-md">
-              AI automation systems that work around the clock, so you don't have to.
+              Websites and automation systems that help small businesses grow and save time.
             </p>
             <div className="mb-6">
               <a 
@@ -35,18 +41,20 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
-              <li><a href="#about" className="text-gray-400 hover:text-[#00D4FF] transition-colors">About</a></li>
-              <li><a href="#services" className="text-gray-400 hover:text-[#00D4FF] transition-colors">Services</a></li>
-              <li><a href="#how-it-works" className="text-gray-400 hover:text-[#00D4FF] transition-colors">How It Works</a></li>
-              <li><a href="#contact" className="text-gray-400 hover:text-[#00D4FF] transition-colors">Contact</a></li>
+              <li><button onClick={() => scrollToSection('about')} className="text-gray-400 hover:text-[#00D4FF] transition-colors">About</button></li>
+              <li><button onClick={() => scrollToSection('services')} className="text-gray-400 hover:text-[#00D4FF] transition-colors">Services</button></li>
+              <li><button onClick={() => scrollToSection('portfolio')} className="text-gray-400 hover:text-[#00D4FF] transition-colors">Portfolio</button></li>
+              <li><button onClick={() => scrollToSection('contact')} className="text-gray-400 hover:text-[#00D4FF] transition-colors">Contact</button></li>
             </ul>
           </div>
           
           <div>
-            <h4 className="text-white font-semibold mb-4">Legal</h4>
+            <h4 className="text-white font-semibold mb-4">Services</h4>
             <ul className="space-y-2">
-              <li><Link to="/privacy" className="text-gray-400 hover:text-[#00D4FF] transition-colors">Privacy Policy</Link></li>
-              <li><Link to="/terms" className="text-gray-400 hover:text-[#00D4FF] transition-colors">Terms of Service</Link></li>
+              <li><button onClick={() => scrollToSection('contact')} className="text-gray-400 hover:text-[#00D4FF] transition-colors text-left">Website Development</button></li>
+              <li><button onClick={() => scrollToSection('contact')} className="text-gray-400 hover:text-[#00D4FF] transition-colors text-left">Lead Capture</button></li>
+              <li><button onClick={() => scrollToSection('contact')} className="text-gray-400 hover:text-[#00D4FF] transition-colors text-left">AI Assistant</button></li>
+              <li><button onClick={() => scrollToSection('contact')} className="text-gray-400 hover:text-[#00D4FF] transition-colors text-left">Custom Software</button></li>
             </ul>
           </div>
         </div>
