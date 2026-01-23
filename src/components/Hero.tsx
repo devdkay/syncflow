@@ -85,20 +85,3 @@ export default function Hero() {
     </section>
   );
 }
-          <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-        </Link>
-        
-        <p className="text-gray-400 text-base sm:text-lg px-4">
-          Built for startups, solo founders, and growing teams.
-        </p>
-      </div>
-
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce z-20">
-        <div className="w-6 h-10 border-2 border-[#00D4FF] rounded-full flex justify-center">
-          <div className="w-1 h-3 bg-[#00D4FF] rounded-full mt-2 animate-pulse"></div>
-        </div>
-      </div>
-    </section>
-  );
-}
