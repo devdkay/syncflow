@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, CheckCircle } from 'lucide-react';
+import { supabase, type ContactSubmission } from '../lib/supabase';
 
 const services = [
   'Website Development',
@@ -38,6 +39,7 @@ export default function Contact() {
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Pre-select service from URL parameter
   useEffect(() => {
@@ -62,12 +64,37 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setError(null);
     
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    setIsLoading(false);
-    setIsSubmitted(true);
+    try {
+      // Prepare data for database
+      const submissionData: Omit<ContactSubmission, 'id' | 'created_at' | 'updated_at'> = {
+        full_name: formData.fullName,
+        business_name: formData.businessName || null,
+        email: formData.email,
+        phone: formData.phone || null,
+        service: formData.service,
+        message: formData.message,
+        budget: formData.budget || null,
+        timeline: formData.timeline || null
+      };
+
+      // Insert into Supabase
+      const { error: insertError } = await supabase
+        .from('contact_submissions')
+        .insert([submissionData]);
+
+      if (insertError) {
+        throw insertError;
+      }
+
+      setIsLoading(false);
+      setIsSubmitted(true);
+    } catch (err) {
+      console.error('Error submitting form:', err);
+      setError('Failed to submit form. Please try again.');
+      setIsLoading(false);
+    }
   };
 
   const goBack = () => {
@@ -127,6 +154,12 @@ export default function Contact() {
           </div>
 
           <form onSubmit={handleSubmit} className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl p-6 sm:p-8 space-y-6">
+            {error && (
+              <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
+                <p className="text-red-400 text-sm">{error}</p>
+              </div>
+            )}
+
             {/* Full Name */}
             <div className="form-group">
               <label htmlFor="fullName" className="block text-white font-medium mb-2">
