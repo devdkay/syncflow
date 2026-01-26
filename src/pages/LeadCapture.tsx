@@ -41,9 +41,12 @@ export default function LeadCapture() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0d0d0d] text-white">
+    <div className="min-h-screen bg-[#0d0d0d] text-white relative">
+      {/* Background consistency */}
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900"></div>
+      
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-gray-800">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-gray-800 relative">
         <div className="container mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
             <button 
@@ -61,7 +64,7 @@ export default function LeadCapture() {
       </header>
 
       {/* Hero Section */}
-      <section className="pt-24 pb-16 px-6 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+      <section className="pt-24 pb-16 px-6 relative z-10">
         <div className="container mx-auto max-w-4xl text-center">
           <div className="w-16 h-16 bg-[#00D4FF]/10 rounded-lg flex items-center justify-center mx-auto mb-6">
             <Users className="w-8 h-8 text-[#00D4FF]" />
@@ -82,7 +85,7 @@ export default function LeadCapture() {
       </section>
 
       {/* What's Included */}
-      <section className="py-16 px-6 bg-black/30">
+      <section className="py-16 px-6 bg-black/30 relative z-10">
         <div className="container mx-auto max-w-6xl">
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-12 text-center">
             What's <span className="text-[#00D4FF]">Included</span>
@@ -99,7 +102,7 @@ export default function LeadCapture() {
       </section>
 
       {/* Examples */}
-      <section className="py-16 px-6">
+      <section className="py-16 px-6 relative z-10">
         <div className="container mx-auto max-w-6xl">
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-12 text-center">
             Lead Capture <span className="text-[#00D4FF]">Examples</span>
@@ -120,7 +123,7 @@ export default function LeadCapture() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 px-6 bg-gradient-to-r from-[#00D4FF]/10 to-[#FF6B35]/10">
+      <section className="py-16 px-6 bg-gradient-to-r from-[#00D4FF]/10 to-[#FF6B35]/10 relative z-10">
         <div className="container mx-auto max-w-4xl text-center">
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6">
             Ready to Capture More Leads?

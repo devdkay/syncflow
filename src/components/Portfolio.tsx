@@ -81,7 +81,7 @@ const Portfolio = () => {
       title: "Portfolio Website (Graduate)",
       description: "A clean portfolio website built for a graduate student.",
       image: "https://images.pexels.com/photos/4348404/pexels-photo-4348404.jpeg?auto=compress&cs=tinysrgb&w=800",
-      link: "[PASTE_PORTFOLIO_LINK_HERE]",
+      link: "https://devcs.netlify.app/",
       linkText: "View Website",
       tech: ["Portfolio", "Graduate", "Clean Design"],
       icon: <Zap className="w-6 h-6" />

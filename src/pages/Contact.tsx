@@ -122,9 +122,12 @@ export default function Contact() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0d0d0d] text-white">
+    <div className="min-h-screen bg-[#0d0d0d] text-white relative">
+      {/* Background consistency */}
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900"></div>
+      
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-gray-800">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-gray-800 relative">
         <div className="container mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
             <button 
@@ -142,7 +145,7 @@ export default function Contact() {
       </header>
 
       {/* Contact Form */}
-      <section className="pt-24 pb-20 px-6">
+      <section className="pt-24 pb-20 px-6 relative z-10">
         <div className="container mx-auto max-w-4xl">
           <div className="text-center mb-12">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">

@@ -5,29 +5,29 @@ const testimonials = [
   {
     id: 1,
     text: "I got a well designed website in a day what an amazing platform highly encourage",
-    author: "Sarah M.",
-    role: "Small Business Owner",
+    author: "",
+    role: "University Graduate",
     featured: true
   },
   {
     id: 2,
     text: "Fast delivery and clean design. Very professional.",
-    author: "Mike R.",
+    author: "",
     role: "Freelancer",
     featured: false
   },
   {
     id: 3,
     text: "Great communication and the website looks modern.",
-    author: "Lisa K.",
-    role: "Restaurant Owner",
+    author: "",
+    role: "Small Business Owner",
     featured: false
   },
   {
     id: 4,
     text: "Affordable and the process was super easy.",
-    author: "David L.",
-    role: "Consultant",
+    author: "",
+    role: "Freelancer",
     featured: false
   }
 ];
@@ -66,7 +66,6 @@ export default function Testimonials() {
                 "{featuredTestimonial.text}"
               </blockquote>
               <div className="text-gray-400">
-                <p className="font-semibold text-[#00D4FF]">{featuredTestimonial.author}</p>
                 <p className="text-sm">{featuredTestimonial.role}</p>
               </div>
             </div>
@@ -106,7 +105,6 @@ export default function Testimonials() {
                   "{testimonial.text}"
                 </blockquote>
                 <div className="text-center text-gray-400">
-                  <p className="font-semibold text-[#00D4FF] text-sm">{testimonial.author}</p>
                   <p className="text-xs">{testimonial.role}</p>
                 </div>
               </div>
