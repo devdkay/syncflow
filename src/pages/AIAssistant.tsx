@@ -57,16 +57,7 @@ export default function AIAssistant() {
               Back to Home
             </button>
             <div className="text-xl font-bold text-white">
-              <div className="flex items-center">
-                <div className="h-6 w-6 mr-2 flex items-center justify-center">
-                  <img 
-                    src="/logo_only.png" 
-                    alt="SyncFlow" 
-                    className="h-full w-full object-contain"
-                  />
-                </div>
-                <span className="text-[#00D4FF]">Sync</span>Flow
-              </div>
+              <span className="text-[#00D4FF]">Sync</span>Flow
             </div>
           </div>
         </div>
