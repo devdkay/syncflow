@@ -16,11 +16,13 @@ export default function Footer() {
           <div className="col-span-1 md:col-span-2">
             <div className="text-2xl font-bold text-white mb-4">
               <div className="flex items-center">
-                <img 
-                  src="/logo_only.png" 
-                  alt="SyncFlow" 
-                  className="h-8 w-8 mr-3"
-                />
+                <div className="h-8 w-8 mr-3 flex items-center justify-center">
+                  <img 
+                    src="/logo_only.png" 
+                    alt="SyncFlow" 
+                    className="h-full w-full object-contain"
+                  />
+                </div>
                 <span className="text-[#00D4FF]">Sync</span>Flow
               </div>
             </div>

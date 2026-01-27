@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { CheckCircle } from 'lucide-react';
-import { supabase, type ContactSubmission } from '../lib/supabase';
+import { CheckCircle, Loader2 } from 'lucide-react';
 
 const services = [
   'Website Development',
@@ -35,11 +34,13 @@ export default function ContactForm() {
     service: '',
     message: '',
     budget: '',
-    timeline: ''
+    timeline: '',
+    company_website: '' // honeypot field
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string>('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -53,46 +54,79 @@ export default function ContactForm() {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
+    setSuccessMessage('');
     
     try {
-      // Prepare data for database
-      const submissionData: Omit<ContactSubmission, 'id' | 'created_at' | 'updated_at'> = {
-        full_name: formData.fullName,
-        business_name: formData.businessName || null,
+      // Get current page URL
+      const pageUrl = window.location.href;
+
+      // Prepare data for API
+      const submissionData = {
+        fullName: formData.fullName,
+        businessName: formData.businessName,
         email: formData.email,
-        phone: formData.phone || null,
+        phone: formData.phone,
         service: formData.service,
         message: formData.message,
-        budget: formData.budget || null,
-        timeline: formData.timeline || null
+        budget: formData.budget,
+        timeline: formData.timeline,
+        pageUrl: pageUrl,
+        company_website: formData.company_website // honeypot
       };
 
-      // Insert into Supabase
-      const { error: insertError } = await supabase
-        .from('contact_submissions')
-        .insert([submissionData]);
+      // Submit to our API endpoint
+      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/contact`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`
+        },
+        body: JSON.stringify(submissionData)
+      });
 
-      if (insertError) {
-        throw insertError;
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to submit form');
       }
 
       setIsLoading(false);
+      setSuccessMessage(result.message || 'Request received — check your email for confirmation.');
       setIsSubmitted(true);
+      
+      // Reset form
+      setFormData({
+        fullName: '',
+        businessName: '',
+        email: '',
+        phone: '',
+        service: '',
+        message: '',
+        budget: '',
+        timeline: '',
+        company_website: ''
+      });
     } catch (err) {
       console.error('Error submitting form:', err);
-      setError('Failed to submit form. Please try again.');
+      setError(err instanceof Error ? err.message : 'Failed to submit form. Please try again.');
       setIsLoading(false);
     }
   };
 
   if (isSubmitted) {
     return (
-      <div className="text-center py-12">
-        <CheckCircle className="w-16 h-16 text-[#00D4FF] mx-auto mb-4" />
-        <h3 className="text-2xl font-bold text-white mb-4">Thanks!</h3>
-        <p className="text-gray-300 text-lg">
-          We received your request and will contact you soon.
+      <div className="text-center py-12 bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl p-6 sm:p-8">
+        <CheckCircle className="w-20 h-20 text-[#00D4FF] mx-auto mb-6" />
+        <h3 className="text-2xl font-bold text-white mb-4">Request Received!</h3>
+        <p className="text-gray-300 text-lg mb-6">
+          {successMessage}
         </p>
+        <button
+          onClick={() => setIsSubmitted(false)}
+          className="px-6 py-3 bg-transparent border border-[#00D4FF] text-[#00D4FF] rounded-lg hover:bg-[#00D4FF] hover:text-white transition-colors"
+        >
+          Submit Another Request
+        </button>
       </div>
     );
   }
@@ -115,6 +149,17 @@ export default function ContactForm() {
               <p className="text-red-400 text-sm">{error}</p>
             </div>
           )}
+
+          {/* Honeypot field - hidden from users */}
+          <input
+            type="text"
+            name="company_website"
+            value={formData.company_website}
+            onChange={handleInputChange}
+            style={{ display: 'none' }}
+            tabIndex={-1}
+            autoComplete="off"
+          />
 
           {/* Full Name */}
           <div className="form-group">
@@ -273,7 +318,7 @@ export default function ContactForm() {
           >
             {isLoading ? (
               <div className="flex items-center justify-center">
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                <Loader2 className="animate-spin h-5 w-5 mr-2" />
                 Sending...
               </div>
             ) : (

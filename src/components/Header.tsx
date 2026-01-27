@@ -20,11 +20,14 @@ export default function Header() {
             onClick={() => scrollToSection('hero')}
             className="flex items-center hover:opacity-80 transition-opacity"
           >
-            <img 
-              src="/logo_only.png" 
-              alt="SyncFlow" 
-              className="h-8 w-8 sm:h-10 sm:w-10"
-            />
+            <div className="h-8 w-8 sm:h-10 sm:w-10 flex items-center justify-center">
+              <img 
+                src="/logo_only.png" 
+                alt="SyncFlow" 
+                className="h-full w-full object-contain"
+                style={{ filter: 'drop-shadow(0 0 8px rgba(0, 212, 255, 0.3))' }}
+              />
+            </div>
             <span className="ml-2 text-xl sm:text-2xl font-bold text-white">
               <span className="text-[#00D4FF]">Sync</span>Flow
             </span>

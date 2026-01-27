@@ -58,11 +58,13 @@ export default function AppointmentBooking() {
             </button>
             <div className="text-xl font-bold text-white">
               <div className="flex items-center">
-                <img 
-                  src="/logo_only.png" 
-                  alt="SyncFlow" 
-                  className="h-6 w-6 mr-2"
-                />
+                <div className="h-6 w-6 mr-2 flex items-center justify-center">
+                  <img 
+                    src="/logo_only.png" 
+                    alt="SyncFlow" 
+                    className="h-full w-full object-contain"
+                  />
+                </div>
                 <span className="text-[#00D4FF]">Sync</span>Flow
               </div>
             </div>
