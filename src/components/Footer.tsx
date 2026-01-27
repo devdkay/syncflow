@@ -15,7 +15,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-2">
             <div className="text-2xl font-bold text-white mb-4">
-              <span className="text-[#00D4FF]">Sync</span>Flow
+              <div className="flex items-center">
+                <img 
+                  src="/logo_only.png" 
+                  alt="SyncFlow" 
+                  className="h-8 w-8 mr-3"
+                />
+                <span className="text-[#00D4FF]">Sync</span>Flow
+              </div>
             </div>
             <p className="text-gray-400 mb-6 max-w-md">
               Websites and automation systems that help small businesses grow and save time.

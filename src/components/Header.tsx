@@ -18,9 +18,16 @@ export default function Header() {
         <div className="flex items-center justify-between">
           <button 
             onClick={() => scrollToSection('hero')}
-            className="text-xl sm:text-2xl font-bold text-white hover:text-[#00D4FF] transition-colors"
+            className="flex items-center hover:opacity-80 transition-opacity"
           >
-            <span className="text-[#00D4FF]">Sync</span>Flow
+            <img 
+              src="/logo_only.png" 
+              alt="SyncFlow" 
+              className="h-8 w-8 sm:h-10 sm:w-10"
+            />
+            <span className="ml-2 text-xl sm:text-2xl font-bold text-white">
+              <span className="text-[#00D4FF]">Sync</span>Flow
+            </span>
           </button>
           
           {/* Desktop Navigation */}
