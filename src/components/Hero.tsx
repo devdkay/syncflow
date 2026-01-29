@@ -42,12 +42,12 @@ export default function Hero() {
       {/* Content */}
       <div className="relative z-20 text-center px-6 max-w-4xl mx-auto">
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-6 leading-tight px-4">
-          Websites and Automation Systems for{' '}
+          Custom Digital Solutions for{' '}
           <span className="text-[#00D4FF]">Small Businesses</span>
         </h1>
         
         <p className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto px-4">
-          We build websites, lead capture, booking systems, and a 24/7 AI assistant to help you get more customers and save time.
+          Get more leads and save time with digital systems that work for you 24/7.
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
