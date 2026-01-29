@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
 import { CheckCircle, Loader2 } from 'lucide-react';
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY
+);
 
 const services = [
   'Website Development',
@@ -35,19 +41,33 @@ export default function ContactForm() {
     message: '',
     budget: '',
     timeline: '',
-    company_website: '' // honeypot field
+    company_website: '' // honeypot
   });
+
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string>('');
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const resetForm = () => {
+    setFormData({
+      fullName: '',
+      businessName: '',
+      email: '',
+      phone: '',
+      service: '',
+      message: '',
+      budget: '',
+      timeline: '',
+      company_website: ''
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -55,60 +75,42 @@ export default function ContactForm() {
     setIsLoading(true);
     setError(null);
     setSuccessMessage('');
-    
+
     try {
-      // Get current page URL
-      const pageUrl = window.location.href;
-
-      // Prepare data for API
-      const submissionData = {
-        fullName: formData.fullName,
-        businessName: formData.businessName,
-        email: formData.email,
-        phone: formData.phone,
-        service: formData.service,
-        message: formData.message,
-        budget: formData.budget,
-        timeline: formData.timeline,
-        pageUrl: pageUrl,
-        company_website: formData.company_website // honeypot
-      };
-
-      // Submit to our API endpoint
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/contact`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`
-        },
-        body: JSON.stringify(submissionData)
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || 'Failed to submit form');
+      // Honeypot: pretend success but do nothing
+      if (formData.company_website && formData.company_website.trim() !== '') {
+        setSuccessMessage('Request received. We’ll get back to you soon.');
+        setIsSubmitted(true);
+        resetForm();
+        return;
       }
 
-      setIsLoading(false);
-      setSuccessMessage(result.message || 'Request received — check your email for confirmation.');
+      // Insert into Supabase table
+      // Table example: contact_submissions
+      const { error: insertError } = await supabase
+        .from('contact_submissions')
+        .insert([
+          {
+            full_name: formData.fullName,
+            business_name: formData.businessName || null,
+            email: formData.email,
+            phone: formData.phone || null,
+            service: formData.service,
+            message: formData.message,
+            budget: formData.budget || null,
+            timeline: formData.timeline || null,
+          }
+        ]);
+
+      if (insertError) throw insertError;
+
+      setSuccessMessage('Request received. We’ll get back to you soon.');
       setIsSubmitted(true);
-      
-      // Reset form
-      setFormData({
-        fullName: '',
-        businessName: '',
-        email: '',
-        phone: '',
-        service: '',
-        message: '',
-        budget: '',
-        timeline: '',
-        company_website: ''
-      });
-    } catch (err) {
+      resetForm();
+    } catch (err: any) {
       console.error('Error submitting form:', err);
-      setError(err instanceof Error ? err.message : 'Failed to submit form. Please try again.');
+      setError(err?.message || 'Failed to submit form. Please try again.');
+    } finally {
       setIsLoading(false);
     }
   };
@@ -118,9 +120,7 @@ export default function ContactForm() {
       <div className="text-center py-12 bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl p-6 sm:p-8">
         <CheckCircle className="w-20 h-20 text-[#00D4FF] mx-auto mb-6" />
         <h3 className="text-2xl font-bold text-white mb-4">Request Received!</h3>
-        <p className="text-gray-300 text-lg mb-6">
-          {successMessage}
-        </p>
+        <p className="text-gray-300 text-lg mb-6">{successMessage}</p>
         <button
           onClick={() => setIsSubmitted(false)}
           className="px-6 py-3 bg-transparent border border-[#00D4FF] text-[#00D4FF] rounded-lg hover:bg-[#00D4FF] hover:text-white transition-colors"
@@ -139,7 +139,7 @@ export default function ContactForm() {
             Contact <span className="text-[#00D4FF]">SyncFlow</span>
           </h2>
           <p className="text-lg text-gray-300">
-            Ready to get started? Fill out the form below and we'll get back to you quickly.
+            Ready to get started? Fill out the form below and we&apos;ll get back to you quickly.
           </p>
         </div>
 
@@ -150,7 +150,7 @@ export default function ContactForm() {
             </div>
           )}
 
-          {/* Honeypot field - hidden from users */}
+          {/* Honeypot */}
           <input
             type="text"
             name="company_website"
@@ -194,7 +194,7 @@ export default function ContactForm() {
             />
           </div>
 
-          {/* Email and Phone */}
+          {/* Email & Phone */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="form-group">
               <label htmlFor="email" className="block text-white font-medium mb-2">
@@ -228,7 +228,7 @@ export default function ContactForm() {
             </div>
           </div>
 
-          {/* Service Selection */}
+          {/* Service */}
           <div className="form-group">
             <label htmlFor="service" className="block text-white font-medium mb-2">
               Service Needed *
@@ -267,7 +267,7 @@ export default function ContactForm() {
             />
           </div>
 
-          {/* Budget and Timeline */}
+          {/* Budget & Timeline */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="form-group">
               <label htmlFor="budget" className="block text-white font-medium mb-2">
@@ -310,7 +310,7 @@ export default function ContactForm() {
             </div>
           </div>
 
-          {/* Submit Button */}
+          {/* Submit */}
           <button
             type="submit"
             disabled={isLoading}

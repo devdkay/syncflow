@@ -1,4 +1,3 @@
-import React from 'react';
 import { ArrowRight } from 'lucide-react';
 
 export default function Hero() {
@@ -29,10 +28,10 @@ export default function Hero() {
       <div className="absolute inset-0 z-0">
         {/* Static gradient background */}
         <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900"></div>
-        
+
         {/* Overlay for better text readability */}
         <div className="absolute inset-0 bg-black/30 z-10"></div>
-        
+
         <div className="circuit-animation"></div>
         <div className="glow-orb glow-orb-1"></div>
         <div className="glow-orb glow-orb-2"></div>
@@ -45,32 +44,32 @@ export default function Hero() {
           Custom Digital Solutions for{' '}
           <span className="text-[#00D4FF]">Small Businesses</span>
         </h1>
-        
+
         <p className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto px-4">
           Get more leads and save time with systems that work for you 24/7.
         </p>
-        
+
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
-          <button 
+          <button
             onClick={scrollToContact}
             className="neon-button group inline-flex items-center"
           >
             Get Free Trial
             <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </button>
-          
-          <button 
+
+          <button
             onClick={() => scrollToSection('services')}
             className="px-8 py-4 bg-transparent border-2 border-[#00D4FF] text-[#00D4FF] font-semibold rounded-full transition-all duration-300 hover:bg-[#00D4FF] hover:text-white hover:scale-105 active:scale-95 inline-flex items-center"
           >
             See Services
           </button>
         </div>
-        
+
         <p className="text-gray-400 text-sm sm:text-base px-4 mb-8">
           Basic websites delivered in 24 hours.
         </p>
-        
+
         <p className="text-gray-400 text-base sm:text-lg px-4">
           Built for small businesses, freelancers, and growing teams.
         </p>
