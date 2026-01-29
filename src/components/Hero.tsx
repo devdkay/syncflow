@@ -47,7 +47,7 @@ export default function Hero() {
         </h1>
         
         <p className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto px-4">
-          Get more leads and save time with digital systems that work for you 24/7.
+          Get more leads and save time with systems that work for you 24/7.
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
