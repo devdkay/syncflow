@@ -15,21 +15,21 @@ const services = [
   'Custom Business Software'
 ];
 
-const budgetRanges = [
-  'Under $500',
-  '$500 - $1,000',
-  '$1,000 - $2,500',
-  '$2,500 - $5,000',
-  'Over $5,000'
-];
+// const budgetRanges = [
+//   'Under $500',
+//   '$500 - $1,000',
+//   '$1,000 - $2,500',
+//   '$2,500 - $5,000',
+//   'Over $5,000'
+// ];
 
-const timelines = [
-  'ASAP (Rush)',
-  'Within 1 week',
-  'Within 2 weeks',
-  'Within 1 month',
-  'No rush'
-];
+// const timelines = [
+//   'ASAP (Rush)',
+//   'Within 1 week',
+//   'Within 2 weeks',
+//   'Within 1 month',
+//   'No rush'
+// ];
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -39,8 +39,6 @@ export default function ContactForm() {
     phone: '',
     service: '',
     message: '',
-    budget: '',
-    timeline: '',
     company_website: '' // honeypot
   });
 
@@ -64,8 +62,6 @@ export default function ContactForm() {
       phone: '',
       service: '',
       message: '',
-      budget: '',
-      timeline: '',
       company_website: ''
     });
   };
@@ -97,8 +93,6 @@ export default function ContactForm() {
             phone: formData.phone || null,
             service: formData.service,
             message: formData.message,
-            budget: formData.budget || null,
-            timeline: formData.timeline || null,
           }
         ]);
 
@@ -265,49 +259,6 @@ export default function ContactForm() {
               className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-[#00D4FF] focus:ring-1 focus:ring-[#00D4FF] transition-all duration-300 resize-none"
               placeholder="Tell us about your project and requirements..."
             />
-          </div>
-
-          {/* Budget & Timeline */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="form-group">
-              <label htmlFor="budget" className="block text-white font-medium mb-2">
-                Budget Range (Optional)
-              </label>
-              <select
-                id="budget"
-                name="budget"
-                value={formData.budget}
-                onChange={handleInputChange}
-                className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg text-white focus:border-[#00D4FF] focus:ring-1 focus:ring-[#00D4FF] transition-all duration-300"
-              >
-                <option value="">Select budget range</option>
-                {budgetRanges.map((range) => (
-                  <option key={range} value={range} className="bg-gray-800">
-                    {range}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="timeline" className="block text-white font-medium mb-2">
-                Timeline (Optional)
-              </label>
-              <select
-                id="timeline"
-                name="timeline"
-                value={formData.timeline}
-                onChange={handleInputChange}
-                className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg text-white focus:border-[#00D4FF] focus:ring-1 focus:ring-[#00D4FF] transition-all duration-300"
-              >
-                <option value="">Select timeline</option>
-                {timelines.map((timeline) => (
-                  <option key={timeline} value={timeline} className="bg-gray-800">
-                    {timeline}
-                  </option>
-                ))}
-              </select>
-            </div>
           </div>
 
           {/* Submit */}

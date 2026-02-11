@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { ExternalLink, Code, Zap, Phone } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { ExternalLink, Code, Zap } from 'lucide-react';
 
 const Portfolio = () => {
   const [counters, setCounters] = useState({
@@ -48,7 +48,7 @@ const Portfolio = () => {
     const timer = setInterval(() => {
       currentStep++;
       const progress = currentStep / steps;
-      
+
       setCounters({
         projects: Math.floor(targets.projects * progress),
         clients: Math.floor(targets.clients * progress),
@@ -91,9 +91,9 @@ const Portfolio = () => {
   return (
     <div className="bg-[#0d0d0d] text-white">
       {/* Impact Section */}
-      <section ref={sectionRef} className="py-20 px-6 relative overflow-hidden">
+      <section id='portfolio' ref={sectionRef} className="py-20 px-6 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-[#00D4FF]/5 to-[#FF6B35]/5"></div>
-        
+
         <div className="container mx-auto max-w-6xl relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 px-4">
@@ -174,15 +174,15 @@ const Portfolio = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
             {projects.map((project, index) => (
-              <div 
+              <div
                 key={project.id}
                 className="group bg-gray-900/50 rounded-xl border border-gray-800 hover:border-[#00D4FF]/50 transition-all duration-300 overflow-hidden animate-fade-in"
                 style={{ animationDelay: `${index * 0.2}s` }}
               >
                 {/* Project Image */}
                 <div className="relative h-48 overflow-hidden">
-                  <img 
-                    src={project.image} 
+                  <img
+                    src={project.image}
                     alt={project.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
@@ -197,7 +197,7 @@ const Portfolio = () => {
                   <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#00D4FF] transition-colors">
                     {project.title}
                   </h3>
-                  
+
                   <p className="text-gray-400 mb-4 leading-relaxed">
                     {project.description}
                   </p>
@@ -205,7 +205,7 @@ const Portfolio = () => {
                   {/* Tech Stack */}
                   <div className="flex flex-wrap gap-2 mb-4">
                     {project.tech.map((tech, techIndex) => (
-                      <span 
+                      <span
                         key={techIndex}
                         className="px-3 py-1 bg-[#00D4FF]/10 text-[#00D4FF] text-sm rounded-full border border-[#00D4FF]/20"
                       >
@@ -215,7 +215,7 @@ const Portfolio = () => {
                   </div>
 
                   {/* Project Link */}
-                  <a 
+                  <a
                     href={project.link}
                     target={project.link.startsWith('http') ? '_blank' : '_self'}
                     rel={project.link.startsWith('http') ? 'noopener noreferrer' : undefined}

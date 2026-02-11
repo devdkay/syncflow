@@ -30,8 +30,6 @@ CREATE TABLE IF NOT EXISTS contact_submissions (
   phone text,
   service text NOT NULL,
   message text NOT NULL,
-  budget text,
-  timeline text,
   created_at timestamptz DEFAULT now(),
   updated_at timestamptz DEFAULT now()
 );

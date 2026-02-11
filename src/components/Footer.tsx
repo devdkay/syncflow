@@ -1,5 +1,4 @@
-import React from 'react';
-import { Linkedin, Twitter } from 'lucide-react';
+import { Facebook, Instagram, Linkedin } from 'lucide-react';
 
 export default function Footer() {
   const scrollToSection = (sectionId: string) => {
@@ -21,23 +20,29 @@ export default function Footer() {
               Websites and automation systems that help small businesses grow and save time.
             </p>
             <div className="mb-6">
-              <a 
-                href="mailto:syncflow.ca@gmail.com" 
+              <a
+                href="mailto:syncflow.ca@gmail.com"
                 className="text-[#00D4FF] hover:text-white transition-colors text-sm"
               >
                 syncflow.ca@gmail.com
               </a>
             </div>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-[#00D4FF] transition-colors">
+              <a href="https://www.linkedin.com/company/syncflow-ca/" target="_blank"
+                rel="noopener noreferrer" className="text-gray-400 hover:text-[#00D4FF] transition-colors">
                 <Linkedin className="w-6 h-6" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-[#00D4FF] transition-colors">
-                <Twitter className="w-6 h-6" />
+              <a href="https://www.instagram.com/syncflow.ca?igsh=MWtmcGYwOWY2Nm9ybw==" target="_blank"
+                rel="noopener noreferrer" className="text-gray-400 hover:text-[#00D4FF] transition-colors">
+                <Instagram className="w-6 h-6" />
+              </a>
+              <a href="https://www.facebook.com/share/18Ay4KBCH6/?mibextid=wwXIfr" target="_blank"
+                rel="noopener noreferrer" className="text-gray-400 hover:text-[#00D4FF] transition-colors">
+                <Facebook className="w-6 h-6" />
               </a>
             </div>
           </div>
-          
+
           <div>
             <h4 className="text-white font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
@@ -47,7 +52,7 @@ export default function Footer() {
               <li><button onClick={() => scrollToSection('contact')} className="text-gray-400 hover:text-[#00D4FF] transition-colors">Contact</button></li>
             </ul>
           </div>
-          
+
           <div>
             <h4 className="text-white font-semibold mb-4">Services</h4>
             <ul className="space-y-2">
@@ -58,7 +63,7 @@ export default function Footer() {
             </ul>
           </div>
         </div>
-        
+
         <div className="border-t border-gray-800 mt-8 pt-8 text-center">
           <p className="text-gray-400">
             © {new Date().getFullYear()} SyncFlow. All rights reserved.

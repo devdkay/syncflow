@@ -9,21 +9,21 @@ const services = [
   'Custom Business Software'
 ];
 
-const budgetRanges = [
-  'Under $500',
-  '$500 - $1,000',
-  '$1,000 - $2,500',
-  '$2,500 - $5,000',
-  'Over $5,000'
-];
+// const budgetRanges = [
+//   'Under $500',
+//   '$500 - $1,000',
+//   '$1,000 - $2,500',
+//   '$2,500 - $5,000',
+//   'Over $5,000'
+// ];
 
-const timelines = [
-  'ASAP (Rush)',
-  'Within 1 week',
-  'Within 2 weeks',
-  'Within 1 month',
-  'No rush'
-];
+// const timelines = [
+//   'ASAP (Rush)',
+//   'Within 1 week',
+//   'Within 2 weeks',
+//   'Within 1 month',
+//   'No rush'
+// ];
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -33,8 +33,6 @@ export default function Contact() {
     phone: '',
     service: '',
     message: '',
-    budget: '',
-    timeline: '',
     company_website: '' // honeypot field
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -67,7 +65,7 @@ export default function Contact() {
     setIsLoading(true);
     setError(null);
     setSuccessMessage('');
-    
+
     try {
       // Get current page URL
       const pageUrl = window.location.href;
@@ -80,8 +78,6 @@ export default function Contact() {
         phone: formData.phone,
         service: formData.service,
         message: formData.message,
-        budget: formData.budget,
-        timeline: formData.timeline,
         pageUrl: pageUrl,
         company_website: formData.company_website // honeypot
       };
@@ -105,7 +101,7 @@ export default function Contact() {
       setIsLoading(false);
       setSuccessMessage(result.message || 'Request received — check your email for confirmation.');
       setIsSubmitted(true);
-      
+
       // Reset form
       setFormData({
         fullName: '',
@@ -114,8 +110,6 @@ export default function Contact() {
         phone: '',
         service: '',
         message: '',
-        budget: '',
-        timeline: '',
         company_website: ''
       });
     } catch (err) {
@@ -161,12 +155,12 @@ export default function Contact() {
     <div className="min-h-screen bg-[#0d0d0d] text-white relative">
       {/* Background consistency */}
       <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900"></div>
-      
+
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-gray-800 relative">
         <div className="container mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
-            <button 
+            <button
               onClick={goBack}
               className="flex items-center text-white hover:text-[#00D4FF] transition-colors"
             >
@@ -314,49 +308,6 @@ export default function Contact() {
                 className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-[#00D4FF] focus:ring-1 focus:ring-[#00D4FF] transition-all duration-300 resize-none"
                 placeholder="Tell us about your project and requirements..."
               />
-            </div>
-
-            {/* Budget and Timeline */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="form-group">
-                <label htmlFor="budget" className="block text-white font-medium mb-2">
-                  Budget Range (Optional)
-                </label>
-                <select
-                  id="budget"
-                  name="budget"
-                  value={formData.budget}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg text-white focus:border-[#00D4FF] focus:ring-1 focus:ring-[#00D4FF] transition-all duration-300"
-                >
-                  <option value="">Select budget range</option>
-                  {budgetRanges.map((range) => (
-                    <option key={range} value={range} className="bg-gray-800">
-                      {range}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="timeline" className="block text-white font-medium mb-2">
-                  Timeline (Optional)
-                </label>
-                <select
-                  id="timeline"
-                  name="timeline"
-                  value={formData.timeline}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg text-white focus:border-[#00D4FF] focus:ring-1 focus:ring-[#00D4FF] transition-all duration-300"
-                >
-                  <option value="">Select timeline</option>
-                  {timelines.map((timeline) => (
-                    <option key={timeline} value={timeline} className="bg-gray-800">
-                      {timeline}
-                    </option>
-                  ))}
-                </select>
-              </div>
             </div>
 
             {/* Submit Button */}
