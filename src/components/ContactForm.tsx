@@ -70,30 +70,37 @@ export default function ContactForm() {
     try {
       // Honeypot: pretend success but do nothing
       if (formData.company_website && formData.company_website.trim() !== '') {
-        setSuccessMessage('Request received. We’ll get back to you soon.');
+        setSuccessMessage('Request received. We will get back to you soon.');
         setIsSubmitted(true);
         resetForm();
         return;
       }
 
-      // Insert into Supabase table
-      // Table example: contact_submissions
-      const { error: insertError } = await supabase
-        .from('contact_submissions')
-        .insert([
-          {
-            full_name: formData.fullName,
-            business_name: formData.businessName || null,
-            email: formData.email,
-            phone: formData.phone || null,
-            service: formData.service,
-            message: formData.message,
-          }
-        ]);
+      // Check if Supabase is configured
+      const hasSupabase = import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-      if (insertError) throw insertError;
+      if (hasSupabase) {
+        // Insert into Supabase table
+        const { error: insertError } = await supabase
+          .from('contact_submissions')
+          .insert([
+            {
+              full_name: formData.fullName,
+              business_name: formData.businessName || null,
+              email: formData.email,
+              phone: formData.phone || null,
+              service: formData.service,
+              message: formData.message,
+            }
+          ]);
 
-      setSuccessMessage('Request received. We’ll get back to you soon.');
+        if (insertError) throw insertError;
+      } else {
+        // For demo/development, just log to console
+        console.log('Contact form submission:', formData);
+      }
+
+      setSuccessMessage('Request received. We will get back to you soon.');
       setIsSubmitted(true);
       resetForm();
     } catch (err: any) {
