@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import { CheckCircle, Loader2 } from 'lucide-react';
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-);
+import { supabase } from '../lib/supabase';
 
 const services = [
   'Website Development',
