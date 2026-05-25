@@ -1,9 +1,12 @@
 import React from 'react';
 import Header from '../components/Header';
 import Hero from '../components/Hero';
-import Features from '../components/Features';
 import About from '../components/About';
+import Features from '../components/Features';
+import Demo from '../components/Demo';
+import Industries from '../components/Industries';
 import HowItWorks from '../components/HowItWorks';
+import Pricing from '../components/Pricing';
 import Portfolio from '../components/Portfolio';
 import Testimonials from '../components/Testimonials';
 import ContactForm from '../components/ContactForm';
@@ -17,7 +20,10 @@ export default function Home() {
       <Hero />
       <About />
       <Features />
+      <Demo />
+      <Industries />
       <HowItWorks />
+      <Pricing />
       <Portfolio />
       <Testimonials />
       <ContactForm />

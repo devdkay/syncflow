@@ -295,3 +295,137 @@ html {
 .calendly-custom-btn:active {
   transform: scale(0.97);
 }
+
+/* Premium Ambient Glow Animations */
+.animate-glow-slow {
+  animation: ambientGlowSlow 25s ease-in-out infinite alternate;
+}
+
+.animate-glow-slower {
+  animation: ambientGlowSlower 35s ease-in-out infinite alternate;
+}
+
+@keyframes ambientGlowSlow {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  50% {
+    transform: translate(40px, -60px) scale(1.1);
+  }
+  100% {
+    transform: translate(-20px, 30px) scale(0.95);
+  }
+}
+
+@keyframes ambientGlowSlower {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  50% {
+    transform: translate(-50px, 40px) scale(1.15);
+  }
+  100% {
+    transform: translate(30px, -40px) scale(0.9);
+  }
+}
+
+/* Radial Vignette overlay to isolate bright areas and keep hero text high contrast */
+.bg-radial-vignette {
+  background: radial-gradient(circle at 50% 50%, transparent 15%, rgba(13, 13, 13, 0.45) 55%, #0d0d0d 95%);
+}
+
+/* Premium Floating Status Bubble Animations */
+.animate-bubble-float-1 {
+  animation: bubbleFloat1 15s ease-in-out infinite;
+}
+
+.animate-bubble-float-2 {
+  animation: bubbleFloat2 18s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+.animate-bubble-float-3 {
+  animation: bubbleFloat3 16s ease-in-out infinite;
+  animation-delay: 4s;
+}
+
+.animate-bubble-float-4 {
+  animation: bubbleFloat4 20s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+@keyframes bubbleFloat1 {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  10% {
+    opacity: 0.7;
+    transform: translateY(0px) scale(1);
+  }
+  90% {
+    opacity: 0.7;
+    transform: translateY(-35px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.95);
+  }
+}
+
+@keyframes bubbleFloat2 {
+  0% {
+    opacity: 0;
+    transform: translateY(25px) scale(0.95);
+  }
+  12% {
+    opacity: 0.65;
+    transform: translateY(0px) scale(1);
+  }
+  88% {
+    opacity: 0.65;
+    transform: translateY(-40px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-55px) scale(0.95);
+  }
+}
+
+@keyframes bubbleFloat3 {
+  0% {
+    opacity: 0;
+    transform: translateY(15px) scale(0.95);
+  }
+  8% {
+    opacity: 0.75;
+    transform: translateY(0px) scale(1);
+  }
+  92% {
+    opacity: 0.75;
+    transform: translateY(-30px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-45px) scale(0.95);
+  }
+}
+
+@keyframes bubbleFloat4 {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  15% {
+    opacity: 0.6;
+    transform: translateY(0px) scale(1);
+  }
+  85% {
+    opacity: 0.6;
+    transform: translateY(-45px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-60px) scale(0.95);
+  }
+}
