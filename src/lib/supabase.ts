@@ -18,3 +18,39 @@ export type ContactSubmission = {
   created_at?: string;
   updated_at?: string;
 };
+
+export type TestimonialReview = {
+  id?: string;
+  client_name: string;
+  business_name?: string | null;
+  role?: string | null;
+  location?: string | null;
+  email?: string | null;
+  rating: number;
+  review: string;
+  status: 'pending' | 'approved' | 'rejected';
+  featured?: boolean;
+  created_at?: string;
+  updated_at?: string;
+};
+
+export type PageView = {
+  id?: string;
+  path: string;
+  page_title?: string | null;
+  referrer?: string | null;
+  user_agent?: string | null;
+  created_at?: string;
+};
+
+export type FinanceEntry = {
+  id?: string;
+  title: string;
+  entry_type: 'revenue' | 'expense';
+  amount: number;
+  category?: string | null;
+  entry_date: string;
+  notes?: string | null;
+  created_at?: string;
+  updated_at?: string;
+};

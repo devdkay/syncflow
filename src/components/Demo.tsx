@@ -178,35 +178,37 @@ export default function Demo() {
         </div>
 
         {/* Console Tab Selectors */}
-        <div className="flex justify-center mb-10">
-          <div className="flex bg-gray-900/60 p-1.5 rounded-full border border-gray-800 backdrop-blur-sm">
+        <div className="flex justify-center mb-8 sm:mb-10 px-4">
+          <div className="flex w-full max-w-md sm:max-w-none bg-gray-900/60 p-1 sm:p-1.5 rounded-full border border-gray-800 backdrop-blur-sm">
             <button
               onClick={() => setActiveTab('chat')}
-              className={`flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 ${
+              className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-6 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-bold transition-all duration-300 ${
                 activeTab === 'chat'
                   ? 'bg-gradient-to-r from-[#00D4FF] to-[#00a8cc] text-black shadow-md shadow-[#00D4FF]/20'
                   : 'text-gray-400 hover:text-white'
               }`}
             >
-              <MessageSquare className="w-4 h-4" />
-              🤖 24/7 Chatbot Demo
+              <MessageSquare className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span className="hidden sm:inline">🤖 24/7 Chatbot Demo</span>
+              <span className="sm:hidden">🤖 Chatbot</span>
             </button>
             <button
               onClick={() => setActiveTab('voice')}
-              className={`flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 ${
+              className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-6 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-bold transition-all duration-300 ${
                 activeTab === 'voice'
                   ? 'bg-gradient-to-r from-[#00D4FF] to-[#00a8cc] text-black shadow-md shadow-[#00D4FF]/20'
                   : 'text-gray-400 hover:text-white'
               }`}
             >
-              <Phone className="w-4 h-4" />
-              📞 Voice Agent Simulator
+              <Phone className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span className="hidden sm:inline">📞 Voice Agent Simulator</span>
+              <span className="sm:hidden">📞 Voice Agent</span>
             </button>
           </div>
         </div>
 
         {/* Demo Box Container */}
-        <div className="bg-gray-950/80 border border-gray-850 rounded-2xl shadow-2xl shadow-black/80 overflow-hidden flex flex-col md:flex-row h-[600px]">
+        <div className="bg-gray-950/80 border border-gray-850 rounded-2xl shadow-2xl shadow-black/80 overflow-hidden flex flex-col md:flex-row h-auto md:h-[600px]">
           
           {/* LEFT: Context info */}
           <div className="w-full md:w-1/3 border-b md:border-b-0 md:border-r border-gray-900 p-6 flex flex-col justify-between bg-gray-950">
@@ -255,7 +257,7 @@ export default function Demo() {
           </div>
 
           {/* RIGHT: Live Interactive Area */}
-          <div className="w-full md:w-2/3 flex flex-col h-full bg-[#08080c] relative">
+          <div className="w-full md:w-2/3 flex flex-col h-[550px] md:h-full bg-[#08080c] relative">
             
             {/* T1: CHATBOT CONTAINER */}
             {activeTab === 'chat' && (
@@ -284,7 +286,7 @@ export default function Demo() {
                 </div>
 
                 {/* Message Log */}
-                <div className="flex-1 overflow-y-auto p-6 space-y-4 min-h-[300px]">
+                <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 min-h-0">
                   {chatMessages.map((msg, i) => (
                     <div
                       key={i}
@@ -298,7 +300,7 @@ export default function Demo() {
                         {msg.sender === 'user' ? <User className="w-4 h-4 text-gray-300" /> : <Bot className="w-4 h-4 text-[#00D4FF]" />}
                       </div>
                       <div>
-                        <div className={`p-4 rounded-2xl text-sm leading-relaxed ${
+                        <div className={`p-3.5 sm:p-4 rounded-2xl text-sm leading-relaxed ${
                           msg.sender === 'user'
                             ? 'bg-gradient-to-r from-[#FF6B35] to-[#e05822] text-white rounded-tr-none'
                             : 'bg-gray-900/60 border border-gray-800 text-gray-250 rounded-tl-none'
@@ -317,7 +319,7 @@ export default function Demo() {
                       <div className="w-8 h-8 rounded-full bg-[#00D4FF]/10 border border-[#00D4FF]/20 flex items-center justify-center">
                         <Bot className="w-4 h-4 text-[#00D4FF]" />
                       </div>
-                      <div className="bg-gray-900/60 border border-gray-800 p-4 rounded-2xl rounded-tl-none">
+                      <div className="bg-gray-900/60 border border-gray-800 p-3.5 sm:p-4 rounded-2xl rounded-tl-none">
                         <div className="flex gap-1.5 items-center justify-center h-4">
                           <div className="w-1.5 h-1.5 rounded-full bg-gray-500 animate-bounce" style={{ animationDelay: '0ms' }}></div>
                           <div className="w-1.5 h-1.5 rounded-full bg-gray-500 animate-bounce" style={{ animationDelay: '150ms' }}></div>
@@ -330,7 +332,7 @@ export default function Demo() {
                 </div>
 
                 {/* Interactive Suggestion Chips */}
-                <div className="p-4 bg-gray-950 border-t border-gray-900">
+                <div className="p-3 sm:p-4 bg-gray-950 border-t border-gray-900">
                   {activeChips.length > 0 ? (
                     <div className="flex flex-col gap-2">
                       <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-1 px-1">Select a reply to test flow:</p>
@@ -339,7 +341,7 @@ export default function Demo() {
                           <button
                             key={idx}
                             onClick={() => handleChipClick(chip)}
-                            className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300 text-xs rounded-full hover:border-[#00D4FF] hover:bg-gray-900/80 transition-all font-semibold active:scale-95"
+                            className="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-900 border border-gray-800 text-gray-300 text-[11px] sm:text-xs rounded-full hover:border-[#00D4FF] hover:bg-gray-900/80 transition-all font-semibold active:scale-95"
                           >
                             {chip}
                           </button>
@@ -368,25 +370,25 @@ export default function Demo() {
               <div className="flex flex-col h-full justify-between">
                 
                 {/* Audio Wave & Status */}
-                <div className="p-8 bg-gray-950 border-b border-gray-900 flex flex-col items-center justify-center relative overflow-hidden">
+                <div className="p-5 sm:p-8 bg-gray-950 border-b border-gray-900 flex flex-col items-center justify-center relative overflow-hidden">
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,212,255,0.05),transparent_50%)] pointer-events-none"></div>
                   
                   {/* Outer Pulsing Wave ring */}
-                  <div className="relative mb-6">
+                  <div className="relative mb-4 sm:mb-6">
                     <div className={`absolute inset-0 rounded-full bg-[#00D4FF]/10 transition-all duration-300 ${isPlaying ? 'scale-150 opacity-100 animate-ping' : 'scale-100 opacity-0'}`}></div>
                     
                     <button
                       onClick={handleVoicePlayPause}
-                      className={`w-20 h-20 rounded-full flex items-center justify-center relative z-10 transition-all duration-300 ${
+                      className={`w-16 sm:w-20 h-16 sm:h-20 rounded-full flex items-center justify-center relative z-10 transition-all duration-300 ${
                         isPlaying
                           ? 'bg-gradient-to-r from-red-500 to-rose-600 shadow-lg shadow-red-500/20 hover:scale-105'
                           : 'bg-gradient-to-r from-[#00D4FF] to-[#00a8cc] shadow-lg shadow-[#00D4FF]/30 hover:scale-105 active:scale-95'
                       }`}
                     >
                       {isPlaying ? (
-                        <Pause className="w-8 h-8 text-white fill-current" />
+                        <Pause className="w-6 sm:w-8 h-6 sm:h-8 text-white fill-current" />
                       ) : (
-                        <Play className="w-8 h-8 text-black fill-current ml-1" />
+                        <Play className="w-6 sm:w-8 h-6 sm:h-8 text-black fill-current ml-0.5 sm:ml-1" />
                       )}
                     </button>
                   </div>
@@ -403,14 +405,14 @@ export default function Demo() {
 
                   {/* Simulated wave animation below player */}
                   {isPlaying && (
-                    <div className="flex gap-1 items-center justify-center mt-6 h-8">
+                    <div className="flex gap-1 items-center justify-center mt-4 sm:mt-6 h-6 sm:h-8">
                       {[...Array(12)].map((_, idx) => {
                         const randomHeight = [12, 28, 16, 32, 20, 12, 24, 18, 30, 14, 24, 10][idx];
                         const duration = [0.8, 1.2, 0.9, 1.4, 1.1, 0.7, 1.3, 1.0, 1.5, 0.8, 1.2, 0.9][idx];
                         return (
                           <div
                             key={idx}
-                            className="w-1 bg-[#00D4FF] rounded-full transition-all"
+                            className="w-[3px] sm:w-1 bg-[#00D4FF] rounded-full transition-all"
                             style={{
                               height: `${randomHeight}px`,
                               animation: `voiceWave ${duration}s ease-in-out infinite alternate`
@@ -429,7 +431,7 @@ export default function Demo() {
                 </div>
 
                 {/* Transcript feed */}
-                <div className="flex-1 overflow-y-auto p-6 space-y-4 min-h-[250px] bg-gray-950/40">
+                <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 min-h-0 bg-gray-950/40">
                   {currentLineIndex === -1 ? (
                     <div className="h-full flex flex-col items-center justify-center text-center p-6 text-gray-500">
                       <Phone className="w-12 h-12 text-gray-700 mb-4 animate-bounce" />
@@ -464,7 +466,7 @@ export default function Demo() {
                           </div>
                         ) : (
                           <div className="max-w-[75%]">
-                            <div className={`p-4 rounded-xl leading-relaxed text-left ${
+                            <div className={`p-3.5 sm:p-4 rounded-xl leading-relaxed text-left ${
                               line.speaker === 'user'
                                 ? 'bg-gradient-to-r from-[#FF6B35] to-[#e05822] text-white rounded-tr-none'
                                 : 'bg-gray-900/80 border border-gray-800 text-gray-200 rounded-tl-none'

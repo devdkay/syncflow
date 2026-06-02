@@ -37,6 +37,8 @@ CREATE TABLE IF NOT EXISTS contact_submissions (
 ALTER TABLE contact_submissions ENABLE ROW LEVEL SECURITY;
 
 -- Allow anyone to insert contact submissions (for the public form)
+DROP POLICY IF EXISTS "Anyone can submit contact forms" ON contact_submissions;
+
 CREATE POLICY "Anyone can submit contact forms"
   ON contact_submissions
   FOR INSERT
@@ -44,6 +46,8 @@ CREATE POLICY "Anyone can submit contact forms"
   WITH CHECK (true);
 
 -- Allow service role to read all submissions (for admin access)
+DROP POLICY IF EXISTS "Service role can read all submissions" ON contact_submissions;
+
 CREATE POLICY "Service role can read all submissions"
   ON contact_submissions
   FOR SELECT
@@ -59,6 +63,7 @@ BEGIN
 END;
 $$ language 'plpgsql';
 
+DROP TRIGGER IF EXISTS update_contact_submissions_updated_at ON contact_submissions;
 CREATE TRIGGER update_contact_submissions_updated_at
   BEFORE UPDATE ON contact_submissions
   FOR EACH ROW
