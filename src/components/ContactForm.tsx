@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { CheckCircle, Loader2 } from 'lucide-react';
-import { supabase } from '../lib/supabase';
+import { hasSupabaseConfig, supabase } from '../lib/supabase';
 
 const services = [
   'Website Development',
@@ -76,10 +76,7 @@ export default function ContactForm() {
         return;
       }
 
-      // Check if Supabase is configured
-      const hasSupabase = import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-      if (hasSupabase) {
+      if (hasSupabaseConfig) {
         // Insert into Supabase table
         const { error: insertError } = await supabase
           .from('contact_submissions')
@@ -103,9 +100,9 @@ export default function ContactForm() {
       setSuccessMessage('Request received. We will get back to you soon.');
       setIsSubmitted(true);
       resetForm();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error submitting form:', err);
-      setError(err?.message || 'Failed to submit form. Please try again.');
+      setError(err instanceof Error ? err.message : 'Failed to submit form. Please try again.');
     } finally {
       setIsLoading(false);
     }

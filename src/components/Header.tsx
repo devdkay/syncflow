@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Menu, X, Instagram, Facebook, Linkedin, PhoneCall } from 'lucide-react';
+import { openCalendlyPopup } from '../lib/calendly';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -13,7 +14,8 @@ export default function Header() {
   };
 
   const handleBookCall = () => {
-    scrollToSection('contact');
+    openCalendlyPopup();
+    setIsMenuOpen(false);
   };
 
   return (

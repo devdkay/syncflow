@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Building, ChevronDown, ChevronUp, Loader2, Send, ShieldCheck, Star } from 'lucide-react';
-import { supabase, TestimonialReview } from '../lib/supabase';
+import { hasSupabaseConfig, supabase, TestimonialReview } from '../lib/supabase';
 
 const clientLogos = [
   { name: 'Halifax Wellness', industry: 'Health & Clinic' },
@@ -74,9 +74,7 @@ export default function Testimonials() {
   const [reviewError, setReviewError] = useState<string | null>(null);
 
   useEffect(() => {
-    const hasSupabase = import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-    if (!hasSupabase) {
+    if (!hasSupabaseConfig) {
       return;
     }
 
@@ -128,9 +126,7 @@ export default function Testimonials() {
     setReviewError(null);
 
     try {
-      const hasSupabase = import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-      if (hasSupabase) {
+      if (hasSupabaseConfig) {
         const { error } = await supabase
           .from('testimonials')
           .insert({

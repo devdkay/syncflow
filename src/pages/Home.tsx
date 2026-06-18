@@ -10,7 +10,6 @@ import Pricing from '../components/Pricing';
 import Portfolio from '../components/Portfolio';
 import Testimonials from '../components/Testimonials';
 import ContactForm from '../components/ContactForm';
-import PopupOffer from '../components/PopupOffer';
 import Footer from '../components/Footer';
 
 export default function Home() {
@@ -28,7 +27,6 @@ export default function Home() {
       <Testimonials />
       <ContactForm />
       <Footer />
-      <PopupOffer />
     </>
   );
 }

@@ -8,6 +8,7 @@ import {
   Loader2,
   LogOut,
   Mail,
+  Megaphone,
   Menu,
   Pencil,
   RefreshCcw,
@@ -20,9 +21,10 @@ import {
   XCircle,
 } from 'lucide-react';
 import { Session } from '@supabase/supabase-js';
-import { ContactSubmission, FinanceEntry, PageView, supabase, TestimonialReview } from '../lib/supabase';
+import { ContactSubmission, FinanceEntry, hasSupabaseConfig, PageView, PopupSettings, supabase, TestimonialReview } from '../lib/supabase';
+import { siteSections } from '../lib/siteSections';
 
-type AdminSection = 'overview' | 'finance' | 'reviews' | 'contacts' | 'traffic';
+type AdminSection = 'overview' | 'popup' | 'finance' | 'reviews' | 'contacts' | 'traffic';
 type TimeRange = '30d' | '90d' | '12m' | 'all';
 
 const currencyFormatter = new Intl.NumberFormat('en-CA', {
@@ -36,7 +38,7 @@ const dateFormatter = new Intl.DateTimeFormat('en-CA', {
   year: 'numeric',
 });
 
-const hasSupabase = Boolean(import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY);
+const hasSupabase = hasSupabaseConfig;
 
 const navGroups: Array<{ heading: string; items: Array<{ id: AdminSection; label: string; icon: React.ReactNode }> }> = [
   {
@@ -46,6 +48,7 @@ const navGroups: Array<{ heading: string; items: Array<{ id: AdminSection; label
   {
     heading: 'Business',
     items: [
+      { id: 'popup', label: 'Popup Offer', icon: <Megaphone className="w-4 h-4" /> },
       { id: 'finance', label: 'Finances', icon: <DollarSign className="w-4 h-4" /> },
       { id: 'contacts', label: 'Contacts', icon: <Inbox className="w-4 h-4" /> },
       { id: 'reviews', label: 'Reviews', icon: <Star className="w-4 h-4" /> },
@@ -59,6 +62,7 @@ const navGroups: Array<{ heading: string; items: Array<{ id: AdminSection; label
 
 const sectionLabels: Record<AdminSection, string> = {
   overview: 'Overview',
+  popup: 'Popup Offer',
   finance: 'Finances',
   reviews: 'Reviews',
   contacts: 'Contacts',
@@ -73,6 +77,41 @@ const defaultFinanceForm = () => ({
   entry_date: new Date().toISOString().slice(0, 10),
   notes: '',
 });
+
+const defaultPopupForm = () => ({
+  enabled: true,
+  delay_seconds: 3,
+  eyebrow: 'Limited Offer',
+  title: 'Get One Week Free Trial',
+  description: 'Get your website and use it for one week. If you like it, then pay - you surely will.',
+  primary_button_enabled: true,
+  primary_button_label: 'Get Free Trial',
+  primary_button_target_section: 'contact',
+  secondary_button_enabled: true,
+  secondary_button_label: 'View Packages',
+  secondary_button_target_section: 'pricing',
+});
+
+type PopupForm = ReturnType<typeof defaultPopupForm>;
+
+function popupToForm(settings?: PopupSettings | null): PopupForm {
+  const defaults = defaultPopupForm();
+  if (!settings) return defaults;
+
+  return {
+    enabled: settings.enabled,
+    delay_seconds: settings.delay_seconds,
+    eyebrow: settings.eyebrow || '',
+    title: settings.title,
+    description: settings.description,
+    primary_button_enabled: settings.primary_button_enabled,
+    primary_button_label: settings.primary_button_label,
+    primary_button_target_section: settings.primary_button_target_section,
+    secondary_button_enabled: settings.secondary_button_enabled,
+    secondary_button_label: settings.secondary_button_label,
+    secondary_button_target_section: settings.secondary_button_target_section,
+  };
+}
 
 function formatDate(value?: string) {
   if (!value) return 'Unknown date';
@@ -234,19 +273,24 @@ export default function AdminDashboard() {
   const [reviews, setReviews] = useState<TestimonialReview[]>([]);
   const [pageViews, setPageViews] = useState<PageView[]>([]);
   const [financeEntries, setFinanceEntries] = useState<FinanceEntry[]>([]);
+  const [popupSettings, setPopupSettings] = useState<PopupSettings | null>(null);
+  const [popupSettingsError, setPopupSettingsError] = useState<string | null>(null);
   const [dataLoading, setDataLoading] = useState(false);
+  const [popupSaving, setPopupSaving] = useState(false);
   const [activeSection, setActiveSection] = useState<AdminSection>('overview');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [financeRange, setFinanceRange] = useState<TimeRange>('90d');
   const [trafficRange, setTrafficRange] = useState<TimeRange>('90d');
   const [editingFinanceId, setEditingFinanceId] = useState<string | null>(null);
   const [financeForm, setFinanceForm] = useState(defaultFinanceForm);
+  const [popupForm, setPopupForm] = useState<PopupForm>(defaultPopupForm);
 
   const loadDashboardData = async () => {
     if (!hasSupabase) return;
 
     setDataLoading(true);
     setError(null);
+    setPopupSettingsError(null);
 
     try {
       const [contactsResult, reviewsResult, pageViewsResult, financeResult] = await Promise.all([
@@ -268,6 +312,23 @@ export default function AdminDashboard() {
     } catch (err: unknown) {
       setError(getErrorMessage(err, 'Unable to load dashboard data.'));
     } finally {
+      const { data, error: popupError } = await supabase
+        .from('popup_settings')
+        .select('*')
+        .order('updated_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (popupError) {
+        setPopupSettings(null);
+        setPopupForm(defaultPopupForm());
+        setPopupSettingsError(`${popupError.message}. Run the popup_settings migration to enable popup editing.`);
+      } else {
+        setPopupSettings((data || null) as PopupSettings | null);
+        setPopupForm(popupToForm((data || null) as PopupSettings | null));
+        setPopupSettingsError(null);
+      }
+
       setDataLoading(false);
     }
   };
@@ -468,6 +529,68 @@ export default function AdminDashboard() {
     if (editingFinanceId === entry.id) resetFinanceForm();
   };
 
+  const submitPopupSettings = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setPopupSaving(true);
+
+    const delaySeconds = Number(popupForm.delay_seconds);
+    if (!Number.isFinite(delaySeconds) || delaySeconds < 0 || delaySeconds > 30) {
+      setError('Popup delay must be between 0 and 30 seconds.');
+      setPopupSaving(false);
+      return;
+    }
+
+    if (!popupForm.title.trim() || !popupForm.description.trim()) {
+      setError('Popup title and description are required.');
+      setPopupSaving(false);
+      return;
+    }
+
+    if (popupForm.primary_button_enabled && !popupForm.primary_button_label.trim()) {
+      setError('Primary button label is required when the button is enabled.');
+      setPopupSaving(false);
+      return;
+    }
+
+    if (popupForm.secondary_button_enabled && !popupForm.secondary_button_label.trim()) {
+      setError('Secondary button label is required when the button is enabled.');
+      setPopupSaving(false);
+      return;
+    }
+
+    const payload = {
+      enabled: popupForm.enabled,
+      delay_seconds: Math.round(delaySeconds),
+      eyebrow: popupForm.eyebrow.trim() || null,
+      title: popupForm.title.trim(),
+      description: popupForm.description.trim(),
+      primary_button_enabled: popupForm.primary_button_enabled,
+      primary_button_label: popupForm.primary_button_label.trim() || 'Get Started',
+      primary_button_target_section: popupForm.primary_button_target_section,
+      secondary_button_enabled: popupForm.secondary_button_enabled,
+      secondary_button_label: popupForm.secondary_button_label.trim() || 'Learn More',
+      secondary_button_target_section: popupForm.secondary_button_target_section,
+    };
+
+    try {
+      const query = popupSettings?.id
+        ? supabase.from('popup_settings').update(payload).eq('id', popupSettings.id)
+        : supabase.from('popup_settings').insert(payload);
+
+      const { data, error: saveError } = await query.select().single();
+
+      if (saveError) throw saveError;
+
+      setPopupSettings(data as PopupSettings);
+      setPopupForm(popupToForm(data as PopupSettings));
+    } catch (err: unknown) {
+      setError(getErrorMessage(err, 'Unable to save popup settings.'));
+    } finally {
+      setPopupSaving(false);
+    }
+  };
+
   const switchSection = (section: AdminSection) => {
     setActiveSection(section);
     setSidebarOpen(false);
@@ -637,9 +760,199 @@ export default function AdminDashboard() {
         <AdminCard className="p-6">
           <h2 className="mb-5 text-xl font-bold text-slate-950">Quick Actions</h2>
           <div className="space-y-3">
+            <button onClick={() => switchSection('popup')} className="w-full rounded-xl border border-slate-200 p-4 text-left font-semibold text-slate-700 hover:border-[#00D4FF] hover:text-slate-950">Edit popup offer</button>
             <button onClick={() => switchSection('finance')} className="w-full rounded-xl border border-slate-200 p-4 text-left font-semibold text-slate-700 hover:border-[#00D4FF] hover:text-slate-950">Add finance entry</button>
             <button onClick={() => switchSection('reviews')} className="w-full rounded-xl border border-slate-200 p-4 text-left font-semibold text-slate-700 hover:border-[#00D4FF] hover:text-slate-950">Moderate reviews</button>
             <button onClick={() => switchSection('contacts')} className="w-full rounded-xl border border-slate-200 p-4 text-left font-semibold text-slate-700 hover:border-[#00D4FF] hover:text-slate-950">Review contact leads</button>
+          </div>
+        </AdminCard>
+      </section>
+    </div>
+  );
+
+  const renderPopupSettings = () => (
+    <div className="space-y-7">
+      <SectionTitle title="Popup Offer" subtitle="Control the promotional popup visitors see shortly after each page reload." />
+
+      {popupSettingsError && (
+        <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm font-semibold text-amber-800">
+          {popupSettingsError}
+        </div>
+      )}
+
+      <section className="grid grid-cols-1 gap-6 xl:grid-cols-[1fr_0.72fr]">
+        <AdminCard className="p-6">
+          <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <h2 className="text-xl font-bold text-slate-950">Popup Content</h2>
+              <p className="text-sm text-slate-500">Update the offer, delay, buttons, and button destinations.</p>
+            </div>
+            <label className="inline-flex cursor-pointer items-center gap-3 rounded-xl border border-slate-200 px-4 py-3 text-sm font-bold text-slate-700">
+              <input
+                type="checkbox"
+                checked={popupForm.enabled}
+                onChange={e => setPopupForm(prev => ({ ...prev, enabled: e.target.checked }))}
+                className="h-4 w-4 accent-[#00D4FF]"
+              />
+              Popup enabled
+            </label>
+          </div>
+
+          <form onSubmit={submitPopupSettings} className="space-y-5">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-[1fr_180px]">
+              <div>
+                <label htmlFor="popupEyebrow" className="mb-2 block text-sm font-semibold text-slate-700">Badge text</label>
+                <input
+                  id="popupEyebrow"
+                  value={popupForm.eyebrow}
+                  onChange={e => setPopupForm(prev => ({ ...prev, eyebrow: e.target.value }))}
+                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-950 outline-none focus:border-[#00D4FF]"
+                  placeholder="Limited Offer"
+                />
+              </div>
+              <div>
+                <label htmlFor="popupDelay" className="mb-2 block text-sm font-semibold text-slate-700">Delay seconds</label>
+                <input
+                  id="popupDelay"
+                  value={popupForm.delay_seconds}
+                  onChange={e => setPopupForm(prev => ({ ...prev, delay_seconds: Number(e.target.value) }))}
+                  type="number"
+                  min="0"
+                  max="30"
+                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-950 outline-none focus:border-[#00D4FF]"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="popupTitle" className="mb-2 block text-sm font-semibold text-slate-700">Title</label>
+              <input
+                id="popupTitle"
+                value={popupForm.title}
+                onChange={e => setPopupForm(prev => ({ ...prev, title: e.target.value }))}
+                required
+                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-950 outline-none focus:border-[#00D4FF]"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="popupDescription" className="mb-2 block text-sm font-semibold text-slate-700">Description</label>
+              <textarea
+                id="popupDescription"
+                value={popupForm.description}
+                onChange={e => setPopupForm(prev => ({ ...prev, description: e.target.value }))}
+                required
+                rows={4}
+                className="w-full resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-950 outline-none focus:border-[#00D4FF]"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+              {([
+                {
+                  key: 'primary',
+                  title: 'Primary Button',
+                  enabled: popupForm.primary_button_enabled,
+                  label: popupForm.primary_button_label,
+                  target: popupForm.primary_button_target_section,
+                },
+                {
+                  key: 'secondary',
+                  title: 'Secondary Button',
+                  enabled: popupForm.secondary_button_enabled,
+                  label: popupForm.secondary_button_label,
+                  target: popupForm.secondary_button_target_section,
+                },
+              ] as const).map(button => (
+                <div key={button.key} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <label className="mb-4 inline-flex cursor-pointer items-center gap-3 text-sm font-bold text-slate-700">
+                    <input
+                      type="checkbox"
+                      checked={button.enabled}
+                      onChange={e => {
+                        const checked = e.target.checked;
+                        setPopupForm(prev => button.key === 'primary'
+                          ? { ...prev, primary_button_enabled: checked }
+                          : { ...prev, secondary_button_enabled: checked });
+                      }}
+                      className="h-4 w-4 accent-[#00D4FF]"
+                    />
+                    {button.title} on
+                  </label>
+
+                  <div className="space-y-4">
+                    <div>
+                      <label className="mb-2 block text-sm font-semibold text-slate-600">Button label</label>
+                      <input
+                        value={button.label}
+                        onChange={e => {
+                          const value = e.target.value;
+                          setPopupForm(prev => button.key === 'primary'
+                            ? { ...prev, primary_button_label: value }
+                            : { ...prev, secondary_button_label: value });
+                        }}
+                        disabled={!button.enabled}
+                        className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-950 outline-none focus:border-[#00D4FF] disabled:bg-slate-100 disabled:text-slate-400"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="mb-2 block text-sm font-semibold text-slate-600">Click behavior</label>
+                      <select
+                        value={button.target}
+                        onChange={e => {
+                          const value = e.target.value;
+                          setPopupForm(prev => button.key === 'primary'
+                            ? { ...prev, primary_button_target_section: value }
+                            : { ...prev, secondary_button_target_section: value });
+                        }}
+                        disabled={!button.enabled}
+                        className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-950 outline-none focus:border-[#00D4FF] disabled:bg-slate-100 disabled:text-slate-400"
+                      >
+                        {siteSections.map(section => (
+                          <option key={section.id || 'close'} value={section.id}>{section.label}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <button
+              type="submit"
+              disabled={popupSaving}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#00D4FF] px-5 py-3 font-bold text-slate-950 hover:bg-[#22ddff] disabled:opacity-60"
+            >
+              {popupSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+              Save Popup Settings
+            </button>
+          </form>
+        </AdminCard>
+
+        <AdminCard className="overflow-hidden">
+          <div className="border-b border-slate-200 p-5">
+            <h2 className="text-xl font-bold text-slate-950">Live Preview</h2>
+            <p className="text-sm text-slate-500">Preview uses the public popup styling.</p>
+          </div>
+          <div className="bg-[#0d0d0d] p-5">
+            <div className="rounded-2xl border border-gray-800 bg-gray-900 p-6 text-center shadow-2xl shadow-black/30">
+              {popupForm.eyebrow && (
+                <div className="mb-4 inline-flex rounded-full border border-[#00D4FF]/30 bg-[#00D4FF]/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-[#00D4FF]">
+                  {popupForm.eyebrow}
+                </div>
+              )}
+              <h3 className="mb-4 text-2xl font-bold text-white">{popupForm.title || 'Popup title'}</h3>
+              <p className="mb-6 leading-relaxed text-gray-300">{popupForm.description || 'Popup description'}</p>
+              <div className="flex flex-col gap-3 sm:flex-row">
+                {popupForm.primary_button_enabled && (
+                  <span className="neon-button flex-1 justify-center">{popupForm.primary_button_label || 'Primary'}</span>
+                )}
+                {popupForm.secondary_button_enabled && (
+                  <span className="flex-1 rounded-lg border border-gray-600 bg-transparent px-6 py-3 text-gray-300">{popupForm.secondary_button_label || 'Secondary'}</span>
+                )}
+              </div>
+            </div>
           </div>
         </AdminCard>
       </section>
@@ -817,6 +1130,7 @@ export default function AdminDashboard() {
   );
 
   const renderActiveSection = () => {
+    if (activeSection === 'popup') return renderPopupSettings();
     if (activeSection === 'finance') return renderFinance();
     if (activeSection === 'reviews') return renderReviews();
     if (activeSection === 'contacts') return renderContacts();

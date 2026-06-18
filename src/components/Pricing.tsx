@@ -1,57 +1,85 @@
 import React from 'react';
 import { Check, Sparkles, PhoneCall } from 'lucide-react';
+import { openCalendlyPopup } from '../lib/calendly';
 
 const plans = [
   {
-    name: 'Smart Web Starter',
-    price: '499',
+    name: 'Business Launch Website',
+    price: '399',
     period: 'one-time setup',
-    description: 'Establish a premium web presence with a high-speed, conversion-optimized local business website.',
+    description: 'Get a professional website that turns visitors into customers.',
     features: [
-      'Delivered in 24 hours (basic sites)',
-      '100% mobile & tablet responsive',
-      'Local SEO setup (Halifax / Nova Scotia targeting)',
-      'Secure contact & lead capture forms',
-      'Domain registration & hosting setup',
-      '30 days of post-launch updates'
+      'Delivered in 3-5 business days',
+      'Mobile & tablet optimized',
+      'Lead capture/contact forms',
+      'Local SEO setup',
+      'Domain & hosting setup',
+      'Google Business Profile integration',
+      '30 days support'
     ],
-    cta: 'Get Smart Web',
+    cta: 'Launch My Website',
     service: 'Website Development',
-    popular: false
+    popular: false,
+    startingAt: false
   },
   {
-    name: 'AI Agent & Bookings',
-    price: '999',
+    name: '24/7 AI Booking Assistant',
+    price: '799',
     period: 'one-time setup',
-    description: 'Automate 80% of customer support queries and capture qualified bookings 24/7.',
+    description: 'Never miss another lead, even when you are sleeping.',
     features: [
-      'Custom-trained AI Chatbot integration',
-      'Intelligent Calendar Booking system',
-      'Automated client SMS & Email reminders',
-      'Lead capture sent straight to your email/CRM',
-      'Up to 1,000 AI conversations per month',
-      'Full setup & conversational training support'
+      'AI assistant trained on your business',
+      'Website chat integration',
+      'Instant lead qualification',
+      'Calendar booking automation',
+      'SMS & email reminders',
+      'CRM lead capture',
+      'Up to 1,000 conversations/month',
+      'Full setup & training'
     ],
-    cta: 'Get AI Assistant',
+    cta: 'Get More Bookings',
     service: '24/7 Website AI Assistant',
-    popular: true
+    popular: false,
+    startingAt: false
   },
   {
-    name: 'Custom Workflow CRM',
-    price: '1,499',
+    name: 'Growth Package',
+    price: '1,199',
     period: 'one-time setup',
-    description: 'Connect all your software systems into a single automated pipeline that saves 10+ hours a week.',
+    description: 'Everything you need to generate and convert leads automatically.',
     features: [
-      'CRM syncing (HubSpot, Salesforce, etc.)',
-      'Automated email/SMS follow-up drip campaigns',
-      'Invoicing & bookkeeping automation',
-      'Custom analytics & tracking dashboard',
-      'Dedicated project manager & developer support',
-      'Ongoing workflow health audits'
+      'Professional Website',
+      'AI Booking Assistant',
+      'Lead Capture Forms',
+      'Calendar Automation',
+      'SMS & Email Reminders',
+      'CRM Integration',
+      '60 Days Support'
     ],
-    cta: 'Get Custom Software',
+    cta: 'Start Growing',
+    service: 'Website Development',
+    popular: true,
+    startingAt: false
+  },
+  {
+    name: 'Business Automation System',
+    price: '1,299',
+    period: 'one-time setup',
+    description: 'Replace repetitive work with automated systems.',
+    features: [
+      'CRM implementation',
+      'Automated lead nurturing',
+      'Email & SMS workflows',
+      'Invoicing automation',
+      'Client onboarding automation',
+      'Analytics dashboard',
+      'Workflow consulting',
+      'Dedicated support'
+    ],
+    cta: 'Automate My Business',
     service: 'Custom Business Software',
-    popular: false
+    popular: false,
+    startingAt: true
   }
 ];
 
@@ -70,11 +98,7 @@ export default function Pricing() {
   };
 
   const handleBookCall = () => {
-    // Open Calendly if active, or scroll to contact
-    const element = document.getElementById('contact');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    openCalendlyPopup();
   };
 
   return (
@@ -92,17 +116,17 @@ export default function Pricing() {
             Pricing <span className="text-[#00D4FF]">Packages</span>
           </h2>
           <p className="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto">
-            Choose a starting tier that fits your business scale. No hidden fees, clear outcome anchors.
+            Choose the system that helps you launch faster, capture better leads, and automate the follow-up.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8 items-stretch mb-16">
           {plans.map((plan, idx) => (
             <div
               key={idx}
-              className={`rounded-2xl p-8 flex flex-col justify-between transition-all duration-300 relative border ${
+              className={`rounded-2xl p-7 lg:p-8 flex flex-col justify-between transition-all duration-300 relative border ${
                 plan.popular
-                  ? 'bg-gradient-to-b from-gray-900/80 to-gray-950/80 border-[#00D4FF] shadow-xl shadow-[#00D4FF]/10 scale-105 z-10 lg:-translate-y-2'
+                  ? 'bg-gradient-to-b from-gray-900/95 to-gray-950/95 border-[#00D4FF] shadow-2xl shadow-[#00D4FF]/15 xl:scale-[1.04] z-10 xl:-translate-y-3'
                   : 'bg-gray-900/30 border-gray-800/80 hover:border-gray-700 hover:scale-[1.01]'
               }`}
             >
@@ -115,16 +139,23 @@ export default function Pricing() {
 
               <div>
                 <h3 className="text-xl font-bold text-white mb-2">{plan.name}</h3>
-                <p className="text-sm text-gray-400 mb-6 leading-relaxed min-h-[48px]">{plan.description}</p>
+                <p className="text-sm text-gray-400 mb-6 leading-relaxed md:min-h-[66px] xl:min-h-[88px]">{plan.description}</p>
                 
-                <div className="flex items-baseline gap-2 mb-6">
-                  <span className="text-gray-400 text-lg">$</span>
-                  <span className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">{plan.price}</span>
-                  <span className="text-gray-500 text-sm">/ {plan.period}</span>
+                <div className="mb-6">
+                  {plan.startingAt && (
+                    <span className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#00D4FF]">
+                      Starting at
+                    </span>
+                  )}
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-gray-400 text-lg">$</span>
+                    <span className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">{plan.price}</span>
+                  </div>
+                  <span className="mt-1 block text-gray-500 text-sm">{plan.period}</span>
                 </div>
 
                 <div className="border-t border-gray-800/60 pt-6 mb-8">
-                  <p className="text-xs font-bold text-gray-300 uppercase tracking-wider mb-4">What's Included:</p>
+                  <p className="text-xs font-bold text-gray-300 uppercase tracking-wider mb-4">Included:</p>
                   <ul className="space-y-3.5">
                     {plan.features.map((feature, fIdx) => (
                       <li key={fIdx} className="flex items-start gap-2.5 text-sm text-gray-350">

@@ -1,43 +1,74 @@
 import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
+import { hasSupabaseConfig, PopupSettings, supabase } from '../lib/supabase';
+import { scrollToSiteSection } from '../lib/siteSections';
+
+const defaultPopupSettings: PopupSettings = {
+  enabled: true,
+  delay_seconds: 3,
+  eyebrow: 'Limited Offer',
+  title: 'Get One Week Free Trial',
+  description: 'Get your website and use it for one week. If you like it, then pay - you surely will.',
+  primary_button_enabled: true,
+  primary_button_label: 'Get Free Trial',
+  primary_button_target_section: 'contact',
+  secondary_button_enabled: true,
+  secondary_button_label: 'View Packages',
+  secondary_button_target_section: 'pricing',
+};
 
 export default function PopupOffer() {
   const [isVisible, setIsVisible] = useState(false);
+  const [settings, setSettings] = useState<PopupSettings>(defaultPopupSettings);
 
   useEffect(() => {
-    // Check if popup was shown today
-    const lastShown = localStorage.getItem('syncflow-popup-shown');
-    const today = new Date().toDateString();
-    
-    if (lastShown !== today) {
-      // Show popup after 3 seconds
-      const timer = setTimeout(() => {
-        setIsVisible(true);
-      }, 3000);
+    let isMounted = true;
+    let timer: number | undefined;
 
-      return () => clearTimeout(timer);
-    }
+    const loadPopupSettings = async () => {
+      let nextSettings = defaultPopupSettings;
+
+      if (hasSupabaseConfig) {
+        const { data, error } = await supabase
+          .from('popup_settings')
+          .select('*')
+          .eq('enabled', true)
+          .order('updated_at', { ascending: false })
+          .limit(1)
+          .maybeSingle();
+
+        if (error) {
+          console.warn('Unable to load popup settings:', error.message);
+        }
+
+        if (data) {
+          nextSettings = data as PopupSettings;
+        }
+      }
+
+      if (!isMounted || !nextSettings.enabled) return;
+
+      setSettings(nextSettings);
+      timer = window.setTimeout(() => {
+        if (isMounted) setIsVisible(true);
+      }, Math.max(nextSettings.delay_seconds, 0) * 1000);
+    };
+
+    loadPopupSettings();
+
+    return () => {
+      isMounted = false;
+      if (timer) window.clearTimeout(timer);
+    };
   }, []);
 
   const handleClose = () => {
     setIsVisible(false);
-    // Remember that popup was shown today
-    localStorage.setItem('syncflow-popup-shown', new Date().toDateString());
   };
 
-  const handleGetTrial = () => {
+  const handleButtonAction = (targetSection: string) => {
     handleClose();
-    // Scroll to contact form and pre-select Website Development
-    const element = document.getElementById('contact');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      setTimeout(() => {
-        const serviceSelect = document.getElementById('service') as HTMLSelectElement;
-        if (serviceSelect) {
-          serviceSelect.value = 'Website Development';
-        }
-      }, 500);
-    }
+    window.setTimeout(() => scrollToSiteSection(targetSection), 150);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -70,28 +101,36 @@ export default function PopupOffer() {
 
         {/* Content */}
         <div className="text-center">
-          <div className="text-4xl mb-4">🎉</div>
+          {settings.eyebrow && (
+            <div className="mb-4 inline-flex rounded-full border border-[#00D4FF]/30 bg-[#00D4FF]/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-[#00D4FF]">
+              {settings.eyebrow}
+            </div>
+          )}
           <h3 className="text-2xl font-bold text-white mb-4">
-            Get One Week Free Trial
+            {settings.title}
           </h3>
           <p className="text-gray-300 mb-6 leading-relaxed">
-            Get your website and use it for one week. If you like it, then pay — you surely will.
+            {settings.description}
           </p>
 
           {/* Buttons */}
           <div className="flex flex-col sm:flex-row gap-3">
-            <button
-              onClick={handleGetTrial}
-              className="neon-button flex-1"
-            >
-              Get Free Trial
-            </button>
-            <button
-              onClick={handleClose}
-              className="px-6 py-3 bg-transparent border border-gray-600 text-gray-300 rounded-lg hover:border-gray-500 hover:text-white transition-colors flex-1"
-            >
-              Not now
-            </button>
+            {settings.primary_button_enabled && (
+              <button
+                onClick={() => handleButtonAction(settings.primary_button_target_section)}
+                className="neon-button flex-1 justify-center"
+              >
+                {settings.primary_button_label}
+              </button>
+            )}
+            {settings.secondary_button_enabled && (
+              <button
+                onClick={() => handleButtonAction(settings.secondary_button_target_section)}
+                className="px-6 py-3 bg-transparent border border-gray-600 text-gray-300 rounded-lg hover:border-gray-500 hover:text-white transition-colors flex-1"
+              >
+                {settings.secondary_button_label}
+              </button>
+            )}
           </div>
         </div>
       </div>

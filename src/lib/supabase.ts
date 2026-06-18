@@ -1,9 +1,24 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const hasSupabaseConfig = Boolean(supabaseUrl && supabaseAnonKey);
+
+function createDisabledSupabaseClient(): SupabaseClient {
+  return new Proxy(
+    {},
+    {
+      get() {
+        throw new Error('Supabase is not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to enable database features.');
+      },
+    }
+  ) as SupabaseClient;
+}
+
+export const supabase = hasSupabaseConfig
+  ? createClient(supabaseUrl, supabaseAnonKey)
+  : createDisabledSupabaseClient();
 
 export type ContactSubmission = {
   id?: string;
@@ -51,6 +66,23 @@ export type FinanceEntry = {
   category?: string | null;
   entry_date: string;
   notes?: string | null;
+  created_at?: string;
+  updated_at?: string;
+};
+
+export type PopupSettings = {
+  id?: string;
+  enabled: boolean;
+  delay_seconds: number;
+  eyebrow?: string | null;
+  title: string;
+  description: string;
+  primary_button_enabled: boolean;
+  primary_button_label: string;
+  primary_button_target_section: string;
+  secondary_button_enabled: boolean;
+  secondary_button_label: string;
+  secondary_button_target_section: string;
   created_at?: string;
   updated_at?: string;
 };

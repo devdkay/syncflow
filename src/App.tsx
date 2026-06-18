@@ -8,7 +8,7 @@ import CustomSoftware from './pages/CustomSoftware';
 import Contact from './pages/Contact';
 import AdminDashboard from './pages/AdminDashboard';
 import ActivityTracker from './components/ActivityTracker';
-import CalendlyButton from './components/CalendlyButton';
+import PopupOffer from './components/PopupOffer';
 
 function AppShell() {
   const location = useLocation();
@@ -17,11 +17,7 @@ function AppShell() {
   return (
     <div className="min-h-screen bg-[#0d0d0d] text-white">
       <ActivityTracker />
-      {!isAdminRoute && (
-        <div className="fixed bottom-6 right-6 z-[9999]">
-          <CalendlyButton />
-        </div>
-      )}
+      {!isAdminRoute && <PopupOffer />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/website-development" element={<WebsiteDevelopment />} />

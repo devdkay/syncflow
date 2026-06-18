@@ -1,14 +1,12 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
+import { hasSupabaseConfig, supabase } from '../lib/supabase';
 
 export default function ActivityTracker() {
   const location = useLocation();
 
   useEffect(() => {
-    const hasSupabase = import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-    if (!hasSupabase || location.pathname.startsWith('/admin')) {
+    if (!hasSupabaseConfig || location.pathname.startsWith('/admin')) {
       return;
     }
 
